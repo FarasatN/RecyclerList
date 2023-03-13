@@ -27,9 +27,9 @@ data class ItemModel(
         if(id != other.id){
             return false
         }
-        if(notificationId != other.notificationId){
-            return false
-        }
+//        if(notificationId != other.notificationId){
+//            return false
+//        }
 //        if(title != other.title){
 //            return false
 //        }

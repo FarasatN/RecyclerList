@@ -18,7 +18,7 @@ class ItemsRecyclerAdapter(
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemModel>() {
 
         override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
-            return oldItem.id == newItem.id && oldItem.notificationId == newItem.notificationId
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
