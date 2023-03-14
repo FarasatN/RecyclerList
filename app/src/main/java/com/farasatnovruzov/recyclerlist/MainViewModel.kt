@@ -18,11 +18,11 @@ class MainViewModel: ViewModel() {
 
     fun getData(){
         val dataList = ArrayList<ItemModel>()
-        for (i in 1..100) {
+        for (i in 1..1000) {
             dataList.add(ItemModel(12312L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
                 Date().toString(),1,"WithUrl",0,false,2,1))
         }
-        for (i in 1..100) {
+        for (i in 1..1000) {
             dataList.add(ItemModel(12312L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
                 Date().toString(),1,"WithUrl",0,false,2,1))
         }

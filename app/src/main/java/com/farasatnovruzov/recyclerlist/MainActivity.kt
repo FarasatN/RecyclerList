@@ -1,11 +1,13 @@
 package com.farasatnovruzov.recyclerlist
 
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
 
@@ -15,12 +17,19 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     lateinit var itemsRecyclerAdapter: ItemsRecyclerAdapter
     lateinit var recyclerview : RecyclerView
 
+    fun isHuaweiDevice():Boolean{
+        val manufacturer = Build.MANUFACTURER
+        val brand = Build.BRAND
+        Log.i("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
+        return manufacturer.toUpperCase(Locale.getDefault()).contains("HUAWEI") || brand.toUpperCase(Locale.getDefault()).contains("HUAWEI")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
+
 //        viewModel = this.run {
 //            ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
 //        }?: throw Exception("Invalid Activity")
