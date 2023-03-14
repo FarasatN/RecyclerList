@@ -93,9 +93,9 @@ class ItemsRecyclerAdapter(
             } else {
                 val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }
                 for (item in exampleListFull!!) {
-                    if (item.getText2().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(item)
-                    }
+//                    if (item.getText2().toLowerCase().contains(filterPattern)) {
+//                        filteredList.add(item)
+//                    }
                 }
             }
             val results = FilterResults()
@@ -104,8 +104,8 @@ class ItemsRecyclerAdapter(
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            exampleList.clear()
-            exampleList.addAll(results.values as List<*>)
+            differ.currentList.clear()
+            differ.currentList.addAll(results.values as List<ItemModel>)
             notifyDataSetChanged()
         }
     }
