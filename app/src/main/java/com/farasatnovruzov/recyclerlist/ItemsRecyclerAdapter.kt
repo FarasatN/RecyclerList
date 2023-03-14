@@ -94,7 +94,7 @@ class ItemsRecyclerAdapter(
                 val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }
                 for (item in exampleListFull!!) {
 //                    if (item.getText2().toLowerCase().contains(filterPattern)) {
-//                        filteredList.add(item)
+                        filteredList.add(item)
 //                    }
                 }
             }
