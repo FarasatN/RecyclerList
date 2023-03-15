@@ -1,13 +1,16 @@
 package com.farasatnovruzov.recyclerlist
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
@@ -27,6 +30,14 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val toolbar  = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
+        toolbar.title = "Notifications"
+        toolbar.setTitleTextColor(Color.WHITE)
+
+        toolbar.setNavigationOnClickListener(View.OnClickListener { finish() })
+
 
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
 
@@ -54,43 +65,70 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //        initRecyclerView(dataList)
 //        itemsRecyclerAdapter.submitList(dataList)
 
+
+
         initViewModel()
 
 
 
 
-
+        isHuaweiDevice()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        return super.onCreateOptionsMenu(menu)
-
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.list_menu, menu)
 
         val searchItem: MenuItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.getActionView() as SearchView
+        searchView.setOnCloseListener {
+            recyclerview.layoutManager?.scrollToPosition(0)
+        }
+        searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+//                initViewModel()
+                itemsRecyclerAdapter.getFilter().filter(query)
+                Log.v("TAGGGG", "submit query:${query}")
+//                recyclerview.layoutManager?.scrollToPosition(0)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+//                initViewModel()
                 itemsRecyclerAdapter.getFilter().filter(newText)
+                Log.v("TAGGGG", "change query:${newText}")
+//                recyclerview.layoutManager?.scrollToPosition(0)
                 return false
             }
+
         })
+//        recyclerview.layoutManager?.scrollToPosition(0)
+
         return true
+
     }
 
-    private fun initRecyclerView(list: List<ItemModel>){
-        recyclerview.setHasFixedSize(true);
+    fun scrollToPosition(position: Int) {
+        recyclerview.scrollToPosition(position)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        return if (id == R.id.action_search) {
+            true
+        } else super.onOptionsItemSelected(item)
+    }
+
+    private fun initRecyclerView(list: MutableList<ItemModel>){
+        recyclerview.setHasFixedSize(true)
         recyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity, list)
+            itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, list)
             adapter = itemsRecyclerAdapter
         }
     }
@@ -100,7 +138,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
             if (it != null){
                 initRecyclerView(it)
-                itemsRecyclerAdapter.submitList(it)
+//                itemsRecyclerAdapter.submitList(it)
                 itemsRecyclerAdapter.notifyDataSetChanged()
             }else{
                 Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
@@ -123,7 +161,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     fun isHuaweiDevice():Boolean{
         val manufacturer = Build.MANUFACTURER
         val brand = Build.BRAND
-        Log.i("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
+        Log.v("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
         return manufacturer.toUpperCase(Locale.getDefault()).contains("HUAWEI") || brand.toUpperCase(Locale.getDefault()).contains("HUAWEI")
     }
 

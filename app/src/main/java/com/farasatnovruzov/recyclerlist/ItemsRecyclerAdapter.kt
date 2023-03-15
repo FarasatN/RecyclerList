@@ -1,5 +1,7 @@
 package com.farasatnovruzov.recyclerlist
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +13,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class ItemsRecyclerAdapter(
+    private val context: Context,
     private val interaction: Interaction? = null,
-    private val dataList: List<ItemModel>
+    private val dataList: MutableList<ItemModel>,
+//    private val searchedListFull: MutableList<ItemModel>
+//    = ArrayList(dataList),
+    private var searchedPosition: Int = 0
                            ) :   RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
-    private val exampleListFull: List<ItemModel>? = null
-
+    private val searchedListFull: MutableList<ItemModel> = mutableListOf()
 
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemModel>() {
@@ -55,17 +60,22 @@ class ItemsRecyclerAdapter(
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+//        return dataList.size
     }
 
-    fun submitList(list: List<ItemModel>) {
-        differ.submitList(list)
+    init {
+        differ.submitList(dataList)
+        searchedListFull.addAll(differ.currentList)
     }
 
-    class ItemModelViewHolder
-    constructor(
+//    fun submitList(list: MutableList<ItemModel>) {
+//        differ.submitList(list)
+//    }
+
+    class ItemModelViewHolder(
         itemView: View,
         private val interaction: Interaction?
-    ) : RecyclerView.ViewHolder(itemView) {
+            ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: ItemModel) = with(itemView) {
             itemView.setOnClickListener {
@@ -87,14 +97,23 @@ class ItemsRecyclerAdapter(
 
     private val exampleFilter: Filter = object : Filter() {
         override fun performFiltering(constraint: CharSequence): FilterResults {
-            val filteredList: MutableList<ItemModel> = ArrayList()
+            val filteredList: MutableList<ItemModel> = ArrayList<ItemModel>().toMutableList()
             if (constraint == null || constraint.length == 0) {
-                filteredList.addAll(exampleListFull!!)
-            } else {
+                filteredList.addAll(searchedListFull)
+            }
+            else {
                 val filterPattern = constraint.toString().toLowerCase().trim { it <= ' ' }
-                for (item in exampleListFull!!) {
+                for (item in searchedListFull) {
                     if (item.title.toLowerCase().contains(filterPattern)) {
+                        Log.v("TAGGGG", "filterPattern:${filterPattern}")
                         filteredList.add(item)
+                    }
+                    else{
+//                        filteredList.clear()
+//                        differ.submitList(dataList)
+//                        val activity: MainActivity = context as MainActivity
+//                        activity.scrollToPosition(0)
+
                     }
                 }
             }
@@ -103,10 +122,22 @@ class ItemsRecyclerAdapter(
             return results
         }
 
-        override fun publishResults(constraint: CharSequence, results: FilterResults) {
-            differ.currentList.clear()
-            differ.currentList.addAll(results.values as List<ItemModel>)
-            notifyDataSetChanged()
+        override fun publishResults(constraint: CharSequence, results: FilterResults?) {
+//            differ.currentList.toMutableList().clear()
+//            differ.currentList.toMutableList().addAll(results!!.values as MutableList<ItemModel>)
+            differ.submitList(results!!.values as MutableList<ItemModel>)
+
+
+//            notifyDataSetChanged()
+//            Log.v("TAGGGG", "results.values:${(results?.values as MutableList<ItemModel>).size}")
+
+
+            Log.v("TAGGGG", "searchedListFull:${searchedListFull.size}")
+            Log.v("TAGGGG", "differList:${differ.currentList.size}")
+
+//            dataList.clear()
+//            dataList.addAll(results!!.values as MutableList<ItemModel>)
+//            differ.submitList(dataList)
         }
     }
 }

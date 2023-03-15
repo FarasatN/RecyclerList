@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.MainActivity">
 
     <item
         android:id="@+id/action_search"
-        android:icon="?android:attr/actionModeWebSearchDrawable"
-        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
-        tools:targetApi="lollipop" />
+        />
+<!--    tools:targetApi="lollipop"-->
 
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
+    <item
+        android:id="@+id/action_check"
+        android:icon="@drawable/ic_check"
+        android:title="@string/check"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView"
+        />
 </menu>
