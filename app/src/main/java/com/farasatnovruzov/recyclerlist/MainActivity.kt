@@ -81,9 +81,9 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         val searchItem: MenuItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.getActionView() as SearchView
-        searchView.setOnCloseListener {
-            recyclerview.layoutManager?.scrollToPosition(0)
-        }
+//        searchView.setOnCloseListener {
+////            recyclerview.layoutManager?.scrollToPosition(0)
+//        }
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
