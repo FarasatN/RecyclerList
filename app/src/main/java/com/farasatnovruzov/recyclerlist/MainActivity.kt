@@ -1,5 +1,7 @@
 package com.farasatnovruzov.recyclerlist
 
+import android.R
+import android.graphics.Canvas
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -9,18 +11,17 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
@@ -28,7 +29,15 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     lateinit var viewModel: MainViewModel
     lateinit var itemsRecyclerAdapter: ItemsRecyclerAdapter
     lateinit var recyclerview : RecyclerView
-
+    var dataList: MutableList<ItemModel>
+        = mutableListOf()
+//        ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+//            Date().toString(),1,"WithUrl",0,false,2,1),
+//        ItemModel(1L,1.toLong(),"Custom card","19-24 Mart Mohtesem Kampaniya","xyz",
+//            Date().toString(),1,"WithUrl",0,false,2,1),
+//        ItemModel(1L,1.toLong(),"Novruz","19-24 Mart Mohtesem Kampaniya","xyz",
+//            Date().toString(),1,"WithUrl",0,false,2,1)
+//    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,36 +51,25 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         toolbar.setNavigationOnClickListener(View.OnClickListener { finish() })
 
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
 
-//        viewModel = this.run {
-//            ViewModelProvider(this@MainActivity).get(MainViewModel::class.java)
-//        }?: throw Exception("Invalid Activity")
+//        initViewModel()
+        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1))
+        for (i in 1..1000) {
+            dataList.add(ItemModel(123L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1))
+        }
+        for (i in 1..1000) {
+            dataList.add(ItemModel(123L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1))
+        }
+        dataList.add(ItemModel(123L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1))
 
-        // this creates a vertical layout Manager
-//        recyclerview.layoutManager = LinearLayoutManager(this)
-        // ArrayList of class ItemsViewModel
-
-//        val dataList = ArrayList<ItemModel>()
-//        for (i in 1..10) {
-//            dataList.add(ItemModel(12312L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",Date().toString(),1,"WithUrl",0,false,2,1))
-//        }
-//        for (i in 1..10) {
-//            dataList.add(ItemModel(12312L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",Date().toString(),1,"WithUrl",0,false,2,1))
-//        }
-
-//        val adapter = ItemsRecyclerAdapter(dataList)
-
-        // Setting the Adapter with the recyclerview
-//        recyclerview.adapter = adapter
-
-//        initRecyclerView(dataList)
-//        itemsRecyclerAdapter.submitList(dataList)
-
-
-
-        initViewModel()
+        initRecyclerView(dataList)
 
         isHuaweiDevice()
 
@@ -83,6 +81,40 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         val callback: ItemTouchHelper.SimpleCallback = object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            override fun onChildDraw(
+                c: Canvas?,
+                recyclerView: RecyclerView?,
+                viewHolder: RecyclerView.ViewHolder?,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                RecyclerViewSwipeDecorator.Builder(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState.toFloat(),
+                    isCurrentlyActive.toInt()
+                )
+                    .addBackgroundColor(
+                        ContextCompat.getColor(
+                            this@MainActivity,
+                            R.color.my_background
+                        )
+                    )
+                    .addActionIcon(R.drawable.my_icon)
+                    .create()
+                    .decorate()
+                super.onChildDraw(
+                    c!!, recyclerView!!,
+                    viewHolder!!, dX, dY, actionState, isCurrentlyActive
+                )
+            }
+
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -95,14 +127,21 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 val position = viewHolder.getAdapterPosition()
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
-//                        deletedItem = getItem(position)
+                        deletedItem = dataList.get(position)
 //                        viewModel.liveDataList.value!!.removeAt(position)
 //                        viewModel.liveDataList.postValue()
 //                        removeItem(position)
+//                        viewModel.dataList.removeAt(position)
+//                        viewModel.dataList.clear()
+//                        viewModel.liveDataList.observe(this@MainActivity, androidx.lifecycle.Observer{
+//                            it.removeAt(position)
+//                        })
 
-                        viewModel.liveDataList.value!!.removeAt(position)
+//                        viewModel.removeItem(position)
 
+                        dataList.removeAt(position)
                         itemsRecyclerAdapter.notifyItemRemoved(position)
+
 //                        Snackbar.make(recyclerview, deletedItem!!.title, Snackbar.LENGTH_LONG)
 //                            .setAction("Undo", View.OnClickListener {
 ////                                viewModel.addItem(position, deletedItem!!)
@@ -237,19 +276,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         }
     }
 
-    private fun initViewModel(){
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
-            if (it != null){
-                initRecyclerView(it)
-                itemsRecyclerAdapter
-//                itemsRecyclerAdapter.notifyDataSetChanged()
-            }else{
-                Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
-            }
-        })
-        viewModel.getData()
-    }
+
 
 
     fun selectAllVisible(value: Boolean) {
@@ -264,13 +291,26 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
 
 
+    override fun onItemSelected(position: Int, item: ItemModel) {
+        println("DEBUG: CLICKED position : $position")
+        println("DEBUG: CLICKED item: $item")
+    }
 
 
 
 
 
 
-
+//    private fun initViewModel(){
+//        viewModel.liveDataList.observe(this, androidx.lifecycle.Observer {
+//            if (it != null){
+//                initRecyclerView(it)
+//                itemsRecyclerAdapter.notifyDataSetChanged()
+//            }else{
+//                Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
 
 
 
@@ -334,10 +374,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
 
 
-    override fun onItemSelected(position: Int, item: ItemModel) {
-        println("DEBUG: CLICKED position : $position")
-        println("DEBUG: CLICKED item: $item")
-    }
 
 
 
@@ -355,6 +391,8 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         Log.v("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
         return manufacturer.toUpperCase(Locale.getDefault()).contains("HUAWEI") || brand.toUpperCase(Locale.getDefault()).contains("HUAWEI")
     }
+
+
 
 }
 
