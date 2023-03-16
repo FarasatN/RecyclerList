@@ -18,8 +18,7 @@ class ItemsRecyclerAdapter(
     private val dataList: MutableList<ItemModel>,
 //    private val searchedListFull: MutableList<ItemModel>
 //    = ArrayList(dataList),
-    private var searchedPosition: Int = 0
-                           ) :   RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+ ) :   RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     private val searchedListFull: MutableList<ItemModel> = mutableListOf()
 

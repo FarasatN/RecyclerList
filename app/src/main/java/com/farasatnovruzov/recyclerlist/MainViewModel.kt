@@ -19,6 +19,8 @@ class MainViewModel: ViewModel() {
 
     fun getData(){
         val dataList = ArrayList<ItemModel>().toMutableList()
+        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1))
         for (i in 1..1000) {
             dataList.add(ItemModel(123L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
                 Date().toString(),1,"WithUrl",0,false,2,1))

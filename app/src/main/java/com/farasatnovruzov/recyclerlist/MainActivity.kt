@@ -10,9 +10,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -81,11 +81,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         val searchItem: MenuItem = menu!!.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.getActionView() as SearchView
-//        searchView.setOnCloseListener {
-////            recyclerview.layoutManager?.scrollToPosition(0)
-//        }
         searchView.setMaxWidth(Integer.MAX_VALUE);
-
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -96,7 +92,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //                recyclerview.layoutManager?.scrollToPosition(0)
                 return false
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
 //                initViewModel()
                 itemsRecyclerAdapter.getFilter().filter(newText)
@@ -104,17 +99,51 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //                recyclerview.layoutManager?.scrollToPosition(0)
                 return false
             }
-
         })
-//        recyclerview.layoutManager?.scrollToPosition(0)
+
+
+
+        val currentapiVersion = Build.VERSION.SDK_INT
+        if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            searchItem.setOnActionExpandListener(object : MenuItemCompat.OnActionExpandListener,
+                MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                    // Do something when collapsed
+                    Log.i("TAG", "onMenuItemActionCollapse " + item.itemId)
+
+//                    recyclerview.smoothScrollToPosition(0)
+                    recyclerview.scrollToPosition(0)
+
+                    return true // Return true to collapse action view
+                }
+
+                override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                    // TODO Auto-generated method stub
+                    Log.i("TAG"
+                        , "onMenuItemActionExpand " + item.itemId)
+                    return true
+                }
+            })
+        } else {
+            // do something for phones running an SDK before froyo
+            searchView.setOnCloseListener(object : SearchView.OnCloseListener {
+                override fun onClose(): Boolean {
+                    Log.i("TAG", "mSearchView on close ")
+                    // TODO Auto-generated method stub
+//                    recyclerview.smoothScrollToPosition(0)
+                    recyclerview.scrollToPosition(0)
+                    return false
+                }
+            })
+        }
+
 
         return true
-
     }
 
-    fun scrollToPosition(position: Int) {
-        recyclerview.scrollToPosition(position)
-    }
+//    fun scrollToPosition(position: Int) {
+//        recyclerview.scrollToPosition(position)
+//    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -128,6 +157,21 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         recyclerview.setHasFixedSize(true)
         recyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
+//            object:
+//            {
+//                override fun canScrollVertically(): Boolean {
+//                    return false
+//                }
+//                override fun canScrollHorizontally(): Boolean {
+//                    return false
+//                }
+//
+//                override fun setSmoothScrollbarEnabled(enabled: Boolean) {
+//                    super.setSmoothScrollbarEnabled(false)
+//                }
+//            }
+            (layoutManager as LinearLayoutManager).setSmoothScrollbarEnabled(false)
+            recyclerview.setLayoutManager(layoutManager)
             itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, list)
             adapter = itemsRecyclerAdapter
         }
@@ -139,7 +183,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
             if (it != null){
                 initRecyclerView(it)
 //                itemsRecyclerAdapter.submitList(it)
-                itemsRecyclerAdapter.notifyDataSetChanged()
+//                itemsRecyclerAdapter.notifyDataSetChanged()
             }else{
                 Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
             }
@@ -151,7 +195,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         println("DEBUG: CLICKED position : $position")
         println("DEBUG: CLICKED item: $item")
     }
-
 
 
 
