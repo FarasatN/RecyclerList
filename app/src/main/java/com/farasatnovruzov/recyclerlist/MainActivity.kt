@@ -396,4 +396,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
 }
 
-
+//https://www.youtube.com/watch?v=rcSNkSJ624U
+//https://github.com/trulymittal/RecyclerView/blob/swipe_gestures/app/src/main/java/com/example/recyclerview/MainActivity.java
+//https://github.com/xabaras/RecyclerViewSwipeDecorator
