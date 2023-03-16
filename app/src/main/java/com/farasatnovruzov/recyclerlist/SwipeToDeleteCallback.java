@@ -9,11 +9,11 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
@@ -54,6 +54,15 @@ abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
+//        new RecyclerViewSwipeDecorator.Builder(c,recyclerView, viewHolder,dX, dY, actionState, isCurrentlyActive)
+//                .addBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.red))
+//                .addActionIcon(R.drawable.ic_delete)
+//                .create()
+//                .decorate();
+//        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+
+
         View itemView = viewHolder.itemView;
         int itemHeight = itemView.getHeight();
 
@@ -78,8 +87,8 @@ abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
         deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
         deleteDrawable.draw(c);
+       super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
-        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
 
 
     }

@@ -1,9 +1,6 @@
 package com.farasatnovruzov.recyclerlist
 
-import android.content.Context
 import android.graphics.*
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,13 +12,12 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -211,7 +207,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         println("DEBUG: CLICKED position : $position")
         println("DEBUG: CLICKED item: $item")
     }
-
 
 
 
