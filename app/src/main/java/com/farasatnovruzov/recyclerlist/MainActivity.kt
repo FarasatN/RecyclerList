@@ -12,11 +12,15 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
@@ -69,10 +73,66 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         initViewModel()
 
-
-
-
         isHuaweiDevice()
+
+
+
+
+        var deletedItem:ItemModel? = null
+        val archivedItems : MutableList<ItemModel?> = ArrayList()
+
+        val callback: ItemTouchHelper.SimpleCallback = object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.getAdapterPosition()
+                when (direction) {
+                    ItemTouchHelper.LEFT -> {
+//                        deletedItem = getItem(position)
+//                        viewModel.liveDataList.value!!.removeAt(position)
+//                        viewModel.liveDataList.postValue()
+//                        removeItem(position)
+
+                        viewModel.liveDataList.value!!.removeAt(position)
+
+                        itemsRecyclerAdapter.notifyItemRemoved(position)
+//                        Snackbar.make(recyclerview, deletedItem!!.title, Snackbar.LENGTH_LONG)
+//                            .setAction("Undo", View.OnClickListener {
+////                                viewModel.addItem(position, deletedItem!!)
+//                                viewModel.liveDataList.value!!.add(position,deletedItem!!)
+//
+//                                itemsRecyclerAdapter.notifyItemInserted(position)
+//                            })
+//                            .show()
+                    }
+
+//                    ItemTouchHelper.RIGHT -> {
+//                        val item = getItem(position)
+//                        archivedItems.add(item)
+//                        removeItem(position)
+//                        itemsRecyclerAdapter.notifyItemRemoved(position)
+//                        Snackbar.make(recyclerview, item!!.title+", archived.", Snackbar.LENGTH_LONG)
+//                            .setAction("Undo", View.OnClickListener {
+//                                viewModel.addItem(position,item)
+////                                archivedItems.removeAt(archivedItems.lastIndexOf(item))
+////                                archivedItems.add(position,item)
+//                                itemsRecyclerAdapter.notifyItemInserted(position)
+//                            }).show()
+//                    }
+                }
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerview)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -170,7 +230,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //                    super.setSmoothScrollbarEnabled(false)
 //                }
 //            }
-            (layoutManager as LinearLayoutManager).setSmoothScrollbarEnabled(false)
+            (layoutManager as LinearLayoutManager).setSmoothScrollbarEnabled(true)
             recyclerview.setLayoutManager(layoutManager)
             itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, list)
             adapter = itemsRecyclerAdapter
@@ -182,7 +242,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
             if (it != null){
                 initRecyclerView(it)
-//                itemsRecyclerAdapter.submitList(it)
+                itemsRecyclerAdapter
 //                itemsRecyclerAdapter.notifyDataSetChanged()
             }else{
                 Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
@@ -191,10 +251,98 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         viewModel.getData()
     }
 
+
+    fun selectAllVisible(value: Boolean) {
+        val selectAll = findViewById<ConstraintLayout>(R.id.selectAll)
+        if (value == true) {
+            selectAll.visibility = View.VISIBLE
+        } else {
+//            authOpCheckBox.isChecked = false
+            selectAll.visibility = View.GONE
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private fun removeItem(position: Int){
+//        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+//        viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
+//            if (it != null){
+//                initRecyclerView(it)
+////                itemsRecyclerAdapter.submitList(it)
+////                itemsRecyclerAdapter.notifyDataSetChanged()
+//            }else{
+//                Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+////        viewModel.dataList.removeItem(position)
+//        return  viewModel.removeItem(position)
+//    }
+//
+//    private fun getItem(position: Int): ItemModel {
+//        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+//        viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
+//            if (it != null){
+//                initRecyclerView(it)
+////                itemsRecyclerAdapter.submitList(it)
+////                itemsRecyclerAdapter.notifyDataSetChanged()
+//            }else{
+//                Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+////        viewModel.dataList.get(position)
+//
+//        return  viewModel.getItem(position)
+//
+//    }
+//
+//    private fun addItem(position: Int,item: ItemModel) {
+//        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+//        viewModel.getLiveDataObserver().observe(this, androidx.lifecycle.Observer {
+//            if (it != null){
+//                initRecyclerView(it)
+////                itemsRecyclerAdapter.submitList(it)
+////                itemsRecyclerAdapter.notifyDataSetChanged()
+//            }else{
+//                Toast.makeText(this,"Error in getting list", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+////        viewModel.dataList.add(position,item)
+//        viewModel.addItem(position,item)
+//    }
+
+
+
+
     override fun onItemSelected(position: Int, item: ItemModel) {
         println("DEBUG: CLICKED position : $position")
         println("DEBUG: CLICKED item: $item")
     }
+
+
+
+
+
 
 
 

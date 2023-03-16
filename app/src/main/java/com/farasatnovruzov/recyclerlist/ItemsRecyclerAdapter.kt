@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
+
+private var isMultiSelectModeActive: Boolean = false
+
 class ItemsRecyclerAdapter(
     private val context: Context,
     private val interaction: Interaction? = null,
@@ -22,17 +25,13 @@ class ItemsRecyclerAdapter(
 
     private val searchedListFull: MutableList<ItemModel> = mutableListOf()
 
-
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ItemModel>() {
-
         override fun areItemsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
             return oldItem.id == newItem.id
         }
-
         override fun areContentsTheSame(oldItem: ItemModel, newItem: ItemModel): Boolean {
             return oldItem == newItem
         }
-
     }
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
@@ -79,12 +78,20 @@ class ItemsRecyclerAdapter(
         fun bind(item: ItemModel) = with(itemView) {
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
+                deactivateMultiSelection(context)
+            }
+            itemView.setOnLongClickListener {
+                interaction?.onItemSelected(adapterPosition, item)
+                isMultiSelectModeActive = true
+                activateMultiSelection(context)
+                true
             }
 
             itemView.findViewById<TextView>(R.id.notificationTitle).text = item.title
             itemView.findViewById<TextView>(R.id.notificationBody).text = item.content
         }
     }
+
 
     interface Interaction {
         fun onItemSelected(position: Int, item: ItemModel)
@@ -139,4 +146,16 @@ class ItemsRecyclerAdapter(
 //            differ.submitList(dataList)
         }
     }
+}
+
+private fun activateMultiSelection(context: Context) {
+    isMultiSelectModeActive = true
+    val activity = context as MainActivity
+    activity.selectAllVisible(isMultiSelectModeActive)
+}
+
+private fun deactivateMultiSelection(context: Context) {
+    isMultiSelectModeActive = false
+    val activity = context as MainActivity
+    activity.selectAllVisible(isMultiSelectModeActive)
 }
