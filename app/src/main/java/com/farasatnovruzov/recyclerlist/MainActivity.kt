@@ -1,8 +1,9 @@
 package com.farasatnovruzov.recyclerlist
 
-import android.R
-import android.graphics.Canvas
-import android.graphics.Color
+import android.content.Context
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,13 +15,14 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
@@ -31,14 +33,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     lateinit var recyclerview : RecyclerView
     var dataList: MutableList<ItemModel>
         = mutableListOf()
-//        ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
-//            Date().toString(),1,"WithUrl",0,false,2,1),
-//        ItemModel(1L,1.toLong(),"Custom card","19-24 Mart Mohtesem Kampaniya","xyz",
-//            Date().toString(),1,"WithUrl",0,false,2,1),
-//        ItemModel(1L,1.toLong(),"Novruz","19-24 Mart Mohtesem Kampaniya","xyz",
-//            Date().toString(),1,"WithUrl",0,false,2,1)
-//    )
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +42,9 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
         toolbar.title = "Notifications"
         toolbar.setTitleTextColor(Color.WHITE)
-
         toolbar.setNavigationOnClickListener(View.OnClickListener { finish() })
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
 
 //        initViewModel()
@@ -71,109 +63,10 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         initRecyclerView(dataList)
 
-        isHuaweiDevice()
 
-
-
-
-        var deletedItem:ItemModel? = null
-        val archivedItems : MutableList<ItemModel?> = ArrayList()
-
-        val callback: ItemTouchHelper.SimpleCallback = object :
-            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
-            override fun onChildDraw(
-                c: Canvas?,
-                recyclerView: RecyclerView?,
-                viewHolder: RecyclerView.ViewHolder?,
-                dX: Float,
-                dY: Float,
-                actionState: Int,
-                isCurrentlyActive: Boolean
-            ) {
-                RecyclerViewSwipeDecorator.Builder(
-                    c,
-                    recyclerView,
-                    viewHolder,
-                    dX,
-                    dY,
-                    actionState.toFloat(),
-                    isCurrentlyActive.toInt()
-                )
-                    .addBackgroundColor(
-                        ContextCompat.getColor(
-                            this@MainActivity,
-                            R.color.my_background
-                        )
-                    )
-                    .addActionIcon(R.drawable.my_icon)
-                    .create()
-                    .decorate()
-                super.onChildDraw(
-                    c!!, recyclerView!!,
-                    viewHolder!!, dX, dY, actionState, isCurrentlyActive
-                )
-            }
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.getAdapterPosition()
-                when (direction) {
-                    ItemTouchHelper.LEFT -> {
-                        deletedItem = dataList.get(position)
-//                        viewModel.liveDataList.value!!.removeAt(position)
-//                        viewModel.liveDataList.postValue()
-//                        removeItem(position)
-//                        viewModel.dataList.removeAt(position)
-//                        viewModel.dataList.clear()
-//                        viewModel.liveDataList.observe(this@MainActivity, androidx.lifecycle.Observer{
-//                            it.removeAt(position)
-//                        })
-
-//                        viewModel.removeItem(position)
-
-                        dataList.removeAt(position)
-                        itemsRecyclerAdapter.notifyItemRemoved(position)
-
-//                        Snackbar.make(recyclerview, deletedItem!!.title, Snackbar.LENGTH_LONG)
-//                            .setAction("Undo", View.OnClickListener {
-////                                viewModel.addItem(position, deletedItem!!)
-//                                viewModel.liveDataList.value!!.add(position,deletedItem!!)
-//
-//                                itemsRecyclerAdapter.notifyItemInserted(position)
-//                            })
-//                            .show()
-                    }
-
-//                    ItemTouchHelper.RIGHT -> {
-//                        val item = getItem(position)
-//                        archivedItems.add(item)
-//                        removeItem(position)
-//                        itemsRecyclerAdapter.notifyItemRemoved(position)
-//                        Snackbar.make(recyclerview, item!!.title+", archived.", Snackbar.LENGTH_LONG)
-//                            .setAction("Undo", View.OnClickListener {
-//                                viewModel.addItem(position,item)
-////                                archivedItems.removeAt(archivedItems.lastIndexOf(item))
-////                                archivedItems.add(position,item)
-//                                itemsRecyclerAdapter.notifyItemInserted(position)
-//                            }).show()
-//                    }
-                }
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(recyclerview)
-
+        enableSwipeToDeleteAndUndo()
 
     }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.list_menu, menu)
@@ -239,12 +132,9 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
         return true
     }
-
 //    fun scrollToPosition(position: Int) {
 //        recyclerview.scrollToPosition(position)
 //    }
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         return if (id == R.id.action_search) {
@@ -277,6 +167,32 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     }
 
 
+    private fun enableSwipeToDeleteAndUndo() {
+        val callback: SwipeToDeleteCallback = object :
+            SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.getAdapterPosition()
+                val item = itemsRecyclerAdapter.getData().get(position)
+                itemsRecyclerAdapter.removeItem(position)
+                val snackbar = Snackbar
+                    .make(
+                        recyclerview,
+//                        "Item was removed from the list.",
+                        item.title,
+                        Snackbar.LENGTH_LONG
+                    )
+                snackbar.setAction("UNDO") {
+                    itemsRecyclerAdapter.restoreItem(item, position)
+                    recyclerview.scrollToPosition(position)
+                }
+                snackbar.setActionTextColor(Color.GREEN);
+                snackbar.show();
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerview)
+    }
+
 
 
     fun selectAllVisible(value: Boolean) {
@@ -300,6 +216,177 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
 
 
+//    private fun itemTouch() {
+//        var deletedItem: ItemModel? = null
+//        val archivedItems: MutableList<ItemModel?> = ArrayList()
+//
+//        val callback: ItemTouchHelper.SimpleCallback = object :
+//            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+//
+//            var mContext: Context? = null
+//            private var mClearPaint: Paint? = null
+//            private var mBackground: ColorDrawable? = null
+//            private var backgroundColor = 0
+//            private var deleteDrawable: Drawable? = null
+//            private var intrinsicWidth = 0
+//            private var intrinsicHeight = 0
+//
+//
+//            fun SwipeToDeleteCallback(context: Context) {
+//                mContext = context
+//                mBackground = ColorDrawable()
+//                backgroundColor = Color.parseColor("#b80f0a")
+//                mClearPaint = Paint()
+//                mClearPaint?.setXfermode(PorterDuffXfermode(PorterDuff.Mode.CLEAR))
+//                deleteDrawable = ContextCompat.getDrawable(mContext!!, R.drawable.ic_delete)
+//                intrinsicWidth = deleteDrawable!!.intrinsicWidth
+//                intrinsicHeight = deleteDrawable!!.intrinsicHeight
+//            }
+//
+//            override fun onChildDraw(
+//                c: Canvas,
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                dX: Float,
+//                dY: Float,
+//                actionState: Int,
+//                isCurrentlyActive: Boolean
+//            ) {
+//                val itemView = viewHolder.itemView
+//                val itemHeight = itemView.height
+//
+//                val isCancelled: Boolean = dX.equals(0) && !isCurrentlyActive
+//
+//                if (isCancelled) {
+//                    clearCanvas(
+//                        c,
+//                        itemView.right + dX,
+//                        itemView.top.toFloat(),
+//                        itemView.right.toFloat(),
+//                        itemView.bottom.toFloat(),
+//
+//                        )
+//                    super.onChildDraw(
+//                        c,
+//                        recyclerView,
+//                        viewHolder,
+//                        dX,
+//                        dY,
+//                        actionState,
+//                        isCurrentlyActive
+//                    )
+//                    return
+//                }
+//
+//                mBackground?.setColor(backgroundColor)
+//                mBackground?.setBounds(
+//                    itemView.right + dX.toInt(),
+//                    itemView.top,
+//                    itemView.right,
+//                    itemView.bottom
+//                )
+//                mBackground?.draw(c)
+//
+//                val deleteIconTop: Int = itemView.top + (itemHeight - intrinsicHeight) / 2
+//                val deleteIconMargin: Int = (itemHeight - intrinsicHeight) / 2
+//                val deleteIconLeft: Int = itemView.right - deleteIconMargin - intrinsicWidth
+//                val deleteIconRight = itemView.right - deleteIconMargin
+//                val deleteIconBottom: Int = deleteIconTop + intrinsicHeight
+//
+//
+//                deleteDrawable?.setBounds(
+//                    deleteIconLeft,
+//                    deleteIconTop,
+//                    deleteIconRight,
+//                    deleteIconBottom
+//                )
+//                deleteDrawable?.draw(c)
+//
+//
+//                super.onChildDraw(
+//                    c,
+//                    recyclerView,
+//                    viewHolder,
+//                    dX,
+//                    dY,
+//                    actionState,
+//                    isCurrentlyActive
+//                )
+//            }
+//
+//            override fun getSwipeThreshold(viewHolder: RecyclerView.ViewHolder): Float {
+//                return 0.7f
+//            }
+//
+//            private fun clearCanvas(
+//                c: Canvas,
+//                left: Float,
+//                top: Float,
+//                right: Float,
+//                bottom: Float
+//            ) {
+//                c.drawRect(left, top, right, bottom, mClearPaint!!)
+//            }
+//
+//            override fun onMove(
+//                recyclerView: RecyclerView,
+//                viewHolder: RecyclerView.ViewHolder,
+//                target: RecyclerView.ViewHolder
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val position = viewHolder.getAdapterPosition()
+//                when (direction) {
+//                    ItemTouchHelper.LEFT -> {
+//                        deletedItem = dataList.get(position)
+//                        //                        viewModel.liveDataList.value!!.removeAt(position)
+//                        //                        viewModel.liveDataList.postValue()
+//                        //                        removeItem(position)
+//                        //                        viewModel.dataList.removeAt(position)
+//                        //                        viewModel.dataList.clear()
+//                        //                        viewModel.liveDataList.observe(this@MainActivity, androidx.lifecycle.Observer{
+//                        //                            it.removeAt(position)
+//                        //                        })
+//
+//                        //                        viewModel.removeItem(position)
+//
+//                        dataList.removeAt(position)
+//                        itemsRecyclerAdapter.notifyItemRemoved(position)
+//
+//                        //                        Snackbar.make(recyclerview, deletedItem!!.title, Snackbar.LENGTH_LONG)
+//                        //                            .setAction("Undo", View.OnClickListener {
+//                        ////                                viewModel.addItem(position, deletedItem!!)
+//                        //                                viewModel.liveDataList.value!!.add(position,deletedItem!!)
+//                        //
+//                        //                                itemsRecyclerAdapter.notifyItemInserted(position)
+//                        //                            })
+//                        //                            .show()
+//                    }
+//
+//                    //                    ItemTouchHelper.RIGHT -> {
+//                    //                        val item = getItem(position)
+//                    //                        archivedItems.add(item)
+//                    //                        removeItem(position)
+//                    //                        itemsRecyclerAdapter.notifyItemRemoved(position)
+//                    //                        Snackbar.make(recyclerview, item!!.title+", archived.", Snackbar.LENGTH_LONG)
+//                    //                            .setAction("Undo", View.OnClickListener {
+//                    //                                viewModel.addItem(position,item)
+//                    ////                                archivedItems.removeAt(archivedItems.lastIndexOf(item))
+//                    ////                                archivedItems.add(position,item)
+//                    //                                itemsRecyclerAdapter.notifyItemInserted(position)
+//                    //                            }).show()
+//                    //                    }
+//                }
+//            }
+//        }
+//
+//        val itemTouchHelper = ItemTouchHelper(callback)
+//        itemTouchHelper.attachToRecyclerView(recyclerview)
+//    }
+
+
 
 //    private fun initViewModel(){
 //        viewModel.liveDataList.observe(this, androidx.lifecycle.Observer {
@@ -311,16 +398,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //            }
 //        })
 //    }
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -372,25 +449,12 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    fun isHuaweiDevice():Boolean{
-        val manufacturer = Build.MANUFACTURER
-        val brand = Build.BRAND
-        Log.v("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
-        return manufacturer.toUpperCase(Locale.getDefault()).contains("HUAWEI") || brand.toUpperCase(Locale.getDefault()).contains("HUAWEI")
-    }
+//    fun isHuaweiDevice():Boolean{
+//        val manufacturer = Build.MANUFACTURER
+//        val brand = Build.BRAND
+//        Log.v("TAGGGG", "isHuaweiDevice:Build.MANUFACTURER:${Build.MANUFACTURER},Build.BRAND:${Build.BRAND} ")
+//        return manufacturer.toUpperCase(Locale.getDefault()).contains("HUAWEI") || brand.toUpperCase(Locale.getDefault()).contains("HUAWEI")
+//    }
 
 
 

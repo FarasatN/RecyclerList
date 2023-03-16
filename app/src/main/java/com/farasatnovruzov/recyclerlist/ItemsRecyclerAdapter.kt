@@ -1,5 +1,6 @@
 package com.farasatnovruzov.recyclerlist
 
+import android.R.attr.data
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -145,6 +146,21 @@ class ItemsRecyclerAdapter(
 //            dataList.addAll(results!!.values as MutableList<ItemModel>)
 //            differ.submitList(dataList)
         }
+    }
+
+
+    fun removeItem(position: Int) {
+        dataList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun restoreItem(item: ItemModel, position: Int) {
+        dataList.add(position, item)
+        notifyItemInserted(position)
+    }
+
+    fun getData(): MutableList<ItemModel> {
+        return dataList
     }
 }
 
