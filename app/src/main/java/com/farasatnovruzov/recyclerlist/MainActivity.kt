@@ -133,9 +133,15 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
-        return if (id == R.id.action_search) {
-            true
-        } else super.onOptionsItemSelected(item)
+        if (id == R.id.action_search) {
+           return true
+        }else if (id == R.id.action_delete){
+            return true
+        }else if (id == R.id.action_check){
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initRecyclerView(list: MutableList<ItemModel>){
