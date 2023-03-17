@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +18,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -60,9 +60,67 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         initRecyclerView(dataList)
 
 
-        enableSwipeToDeleteAndUndo()
+//        enableSwipeToDeleteAndUndo()
+        enableSwipeToDelete()
 
     }
+
+    private fun enableSwipeToDelete() {
+        val swipe = object : SwipeHelper(this@MainActivity, recyclerview, 200) {
+            override fun instantiateButton(
+                viewHolder: RecyclerView.ViewHolder,
+                buffer: MutableList<ItemButton>
+            ) {
+                buffer.add(
+                    ItemButton(this@MainActivity,
+                        "Delete",
+                        14,
+                        R.drawable.ic_delete,
+                        Color.parseColor("#ff3c30"),
+                        object : ButtonClickListener {
+                            override fun onClick(pos: Int) {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "delete id" + pos,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    ))
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipe)
+        itemTouchHelper.attachToRecyclerView(recyclerview)
+    }
+
+    private fun enableSwipeToDeleteAndUndo() {
+        val callback: SwipeToDeleteCallback = object :
+            SwipeToDeleteCallback(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.getAdapterPosition()
+                val item = itemsRecyclerAdapter.getData().get(position)
+                itemsRecyclerAdapter.removeItem(position)
+                val snackbar = Snackbar
+                    .make(
+                        recyclerview,
+//                        "Item was removed from the list.",
+                        item.title,
+                        Snackbar.LENGTH_LONG
+                    )
+                snackbar.setAction("UNDO") {
+                    itemsRecyclerAdapter.restoreItem(item, position)
+                    recyclerview.scrollToPosition(position)
+                }
+                snackbar.setActionTextColor(Color.GREEN);
+                snackbar.show();
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(recyclerview)
+    }
+
+
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.list_menu, menu)
@@ -169,31 +227,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     }
 
 
-    private fun enableSwipeToDeleteAndUndo() {
-        val callback: SwipeToDeleteCallback = object :
-            SwipeToDeleteCallback(this) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.getAdapterPosition()
-                val item = itemsRecyclerAdapter.getData().get(position)
-                itemsRecyclerAdapter.removeItem(position)
-                val snackbar = Snackbar
-                    .make(
-                        recyclerview,
-//                        "Item was removed from the list.",
-                        item.title,
-                        Snackbar.LENGTH_LONG
-                    )
-                snackbar.setAction("UNDO") {
-                    itemsRecyclerAdapter.restoreItem(item, position)
-                    recyclerview.scrollToPosition(position)
-                }
-                snackbar.setActionTextColor(Color.GREEN);
-                snackbar.show();
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(recyclerview)
-    }
+
 
 
 
