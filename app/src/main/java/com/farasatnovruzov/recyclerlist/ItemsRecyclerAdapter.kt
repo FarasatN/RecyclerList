@@ -2,12 +2,16 @@ package com.farasatnovruzov.recyclerlist
 
 import android.R.attr.data
 import android.content.Context
+import android.graphics.Color
+import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -77,22 +81,76 @@ class ItemsRecyclerAdapter(
             ) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(item: ItemModel) = with(itemView) {
+
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
-                deactivateMultiSelection(context)
+//                deactivateMultiSelection()
+
+
             }
             itemView.setOnLongClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
-                isMultiSelectModeActive = true
-                activateMultiSelection(context)
+                itemView.setBackgroundColor(Color.CYAN)
+                itemView.findViewById<TextView>(R.id.notificationImage)
+//                isMultiSelectModeActive = true
+//                activateMultiSelection(context)
+
+                if (!isMultiSelectModeActive) {
+//                    authOperation.isSelected = true
+//                    notifyDataSetChanged()
+                    val activity = context as MainActivity
+                    activity.selectAllVisible(isMultiSelectModeActive)
+                } else {
+//                    deactivateMultiSelection()
+//                    deselectAll()
+                }
                 true
             }
 
             itemView.findViewById<TextView>(R.id.notificationTitle).text = item.title
             itemView.findViewById<TextView>(R.id.notificationBody).text = item.content
         }
+
+
+
     }
 
+
+
+    fun setAllSelected(active: Boolean) {
+        if (active) {
+            for (op in differ.currentList) {
+                op.isSelected = true
+            }
+            for (op in differ.currentList) {
+                op.isSelected = true
+            }
+//            activateMultiSelection()
+            notifyDataSetChanged()
+        } else {
+            for (op in differ.currentList) {
+                op.isSelected = false
+            }
+            for (op in differ.currentList) {
+                op.isSelected = false
+            }
+//            activateMultiSelection()
+            notifyDataSetChanged()
+        }
+//        val activity = context as NotificationActivity
+//        activity.selectAllVisible(isMultiSelectModeActive)
+    }
+    fun deselectAll() {
+        //  notificationFilterList.clear()
+        for (op in differ.currentList) {
+            op.isSelected = false
+        }
+//        clickListener.invoke(0)
+        isMultiSelectModeActive = false
+        notifyDataSetChanged()
+//        val activity = context as NotificationActivity
+//        activity.selectAllVisible(isMultiSelectModeActive)
+    }
 
     interface Interaction {
         fun onItemSelected(position: Int, item: ItemModel)
@@ -149,6 +207,18 @@ class ItemsRecyclerAdapter(
     }
 
 
+    private fun activateMultiSelection(context: Context) {
+        isMultiSelectModeActive = true
+        val activity = context as MainActivity
+        activity.selectAllVisible(isMultiSelectModeActive)
+    }
+
+    private fun deactivateMultiSelection(context: Context) {
+        isMultiSelectModeActive = true
+        val activity = context as MainActivity
+        activity.selectAllVisible(isMultiSelectModeActive)
+    }
+
 
 
     fun removeItem(position: Int) {
@@ -164,16 +234,4 @@ class ItemsRecyclerAdapter(
     fun getData(): MutableList<ItemModel> {
         return dataList
     }
-}
-
-private fun activateMultiSelection(context: Context) {
-    isMultiSelectModeActive = true
-    val activity = context as MainActivity
-    activity.selectAllVisible(isMultiSelectModeActive)
-}
-
-private fun deactivateMultiSelection(context: Context) {
-    isMultiSelectModeActive = false
-    val activity = context as MainActivity
-    activity.selectAllVisible(isMultiSelectModeActive)
 }

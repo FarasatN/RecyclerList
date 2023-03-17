@@ -18,27 +18,44 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp">
 
-        <LinearLayout
+<!--        <LinearLayout-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center">-->
+
+<!--&lt;!&ndash;            <CheckBox&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/authOpCheckBox"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_weight="1"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:buttonTint="@color/purple_200" />&ndash;&gt;-->
+<!--        </LinearLayout>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center">
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/notificationImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_launcher_foreground"
+                app:layout_constraintBottom_toBottomOf="@id/notificationContainer"
+                app:layout_constraintTop_toTopOf="@id/notificationContainer"
+                app:layout_constraintEnd_toEndOf="@id/notificationTitle"
+                app:layout_constraintStart_toStartOf="@id/notificationContainer"/>
+            <ImageView
+                android:id="@+id/notificationCheckImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/checkmark_512"
+                app:layout_constraintBottom_toBottomOf="@id/notificationImage"
+                app:layout_constraintTop_toTopOf="@id/notificationImage"
+                app:layout_constraintEnd_toEndOf="@id/notificationImage"
+                app:layout_constraintStart_toStartOf="@id/notificationImage"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/authOpCheckBox"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:buttonTint="@color/purple_200" />-->
-        </LinearLayout>
-
-
-        <ImageView
-            android:id="@+id/notificationImage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_launcher_foreground" />
 
         <LinearLayout
             android:layout_width="0dp"

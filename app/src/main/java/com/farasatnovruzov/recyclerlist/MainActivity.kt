@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                         "Delete",
                         14,
                         R.drawable.ic_delete,
+//                        0,
                         Color.parseColor("#ff3c30"),
                         object : ButtonClickListener {
                             override fun onClick(pos: Int) {
@@ -91,6 +93,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         }
         val itemTouchHelper = ItemTouchHelper(swipe)
         itemTouchHelper.attachToRecyclerView(recyclerview)
+
     }
 
     private fun enableSwipeToDeleteAndUndo() {
@@ -126,16 +129,26 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         inflater.inflate(R.menu.list_menu, menu)
 
         val searchItem: MenuItem = menu!!.findItem(R.id.action_search)
+        val checkItem: MenuItem = menu!!.findItem(R.id.action_check)
+        val deleteItem: MenuItem = menu!!.findItem(R.id.action_delete)
+
         val searchView: SearchView = searchItem.getActionView() as SearchView
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
 
+        searchView.setOnClickListener {
+            checkItem.isVisible = false
+            deleteItem.isVisible = false
+        }
+
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
             override fun onQueryTextSubmit(query: String?): Boolean {
 //                initViewModel()
                 itemsRecyclerAdapter.getFilter().filter(query)
                 Log.v("TAGGGG", "submit query:${query}")
 //                recyclerview.layoutManager?.scrollToPosition(0)
+
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -143,12 +156,14 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 itemsRecyclerAdapter.getFilter().filter(newText)
                 Log.v("TAGGGG", "change query:${newText}")
 //                recyclerview.layoutManager?.scrollToPosition(0)
+
                 return false
             }
         })
 
 
-
+        checkItem.isVisible = true
+        deleteItem.isVisible = true
         val currentapiVersion = Build.VERSION.SDK_INT
         if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             searchItem.setOnActionExpandListener(object : MenuItemCompat.OnActionExpandListener,
@@ -156,10 +171,8 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
                     // Do something when collapsed
                     Log.i("TAG", "onMenuItemActionCollapse " + item.itemId)
-
 //                    recyclerview.smoothScrollToPosition(0)
                     recyclerview.scrollToPosition(0)
-
                     return true // Return true to collapse action view
                 }
 
@@ -182,7 +195,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 }
             })
         }
-
 
         return true
     }
