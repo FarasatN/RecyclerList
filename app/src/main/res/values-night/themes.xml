@@ -2,15 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.RecyclerList" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
-        <item name="colorAccent">@color/purple_200</item>
-        <item name="searchViewStyle">@style/SearchViewStyle</item>
-        <item name="windowActionBar">false</item> // this is the required option
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue</item>
+        <item name="colorAccent">@color/light_blue</item>
+<!--        <item name="searchViewStyle">@style/SearchViewStyle</item>-->
 
         <!-- Customize your theme here. -->
         <item name="color">@color/white</item>
-        <item name="queryBackground">@color/purple_200</item>
+        <item name="queryBackground">@color/blue</item>
         <!-- Gets rid of the search icon when the SearchView is expanded -->
         <!-- The hint text that appears when the user has not typed anything -->
         <item name="queryHint">@string/search</item>

@@ -1,17 +1,14 @@
 package com.farasatnovruzov.recyclerlist
 
-import android.R.attr.data
 import android.content.Context
 import android.graphics.Color
-import android.text.Layout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -90,8 +87,9 @@ class ItemsRecyclerAdapter(
             }
             itemView.setOnLongClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
-                itemView.setBackgroundColor(Color.CYAN)
-                itemView.findViewById<TextView>(R.id.notificationImage)
+                itemView.setBackgroundColor(Color.parseColor("#E4E4E4"))
+                val checkMark = itemView.findViewById<ImageView>(R.id.notificationCheckImage)
+                checkMark.visibility = View.VISIBLE
 //                isMultiSelectModeActive = true
 //                activateMultiSelection(context)
 
