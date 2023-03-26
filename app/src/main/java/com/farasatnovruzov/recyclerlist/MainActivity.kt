@@ -10,16 +10,15 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
 
@@ -30,6 +29,8 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     lateinit var recyclerview : RecyclerView
     var dataList: MutableList<ItemModel>
         = mutableListOf()
+    lateinit var selectAll: ConstraintLayout
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         toolbar.title = "Notifications"
         toolbar.setTitleTextColor(Color.WHITE)
         toolbar.setNavigationOnClickListener(View.OnClickListener { finish() })
+        selectAll = findViewById<ConstraintLayout>(R.id.selectAll)
+
 
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
@@ -66,6 +69,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
     }
 
+
     private fun enableSwipeToDelete() {
         val swipe = object : SwipeHelper(this@MainActivity, recyclerview, 200) {
             override fun instantiateButton(
@@ -75,17 +79,26 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 buffer.add(
                     ItemButton(this@MainActivity,
                         "Delete",
-                        14,
+                        36,
                         R.drawable.ic_delete,
 //                        0,
                         Color.parseColor("#ff3c30"),
                         object : ButtonClickListener {
                             override fun onClick(pos: Int) {
-                                Toast.makeText(
-                                    this@MainActivity,
-                                    "delete id" + pos,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                val alertDialogBuilder = AlertDialog.Builder(this@MainActivity,
+                                    androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog_Alert)
+                                alertDialogBuilder.apply {
+                                    setTitle("Delete notification")
+                                    setMessage("Are you sure you want to delete the notification?")
+                                    setPositiveButton("Yes") { dialog, which ->
+                                        itemsRecyclerAdapter.removeItem(pos)
+                                        Toast.makeText(applicationContext,"Notification deleted", Toast.LENGTH_SHORT).show()
+                                    }
+                                    setNegativeButton("No") { dialog, which ->
+                                        dialog.dismiss()
+                                    }
+                                    create().setCancelable(false)
+                                }.show()
                             }
                         }
                     ))
@@ -96,33 +109,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
     }
 
-    private fun enableSwipeToDeleteAndUndo() {
-        val callback: SwipeToDeleteCallback = object :
-            SwipeToDeleteCallback(this) {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.getAdapterPosition()
-                val item = itemsRecyclerAdapter.getData().get(position)
-                itemsRecyclerAdapter.removeItem(position)
-                val snackbar = Snackbar
-                    .make(
-                        recyclerview,
-//                        "Item was removed from the list.",
-                        item.title,
-                        Snackbar.LENGTH_LONG
-                    )
-                snackbar.setAction("UNDO") {
-                    itemsRecyclerAdapter.restoreItem(item, position)
-                    recyclerview.scrollToPosition(position)
-                }
-                snackbar.setActionTextColor(Color.GREEN);
-                snackbar.show();
-            }
-        }
-        val itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper.attachToRecyclerView(recyclerview)
-    }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -132,23 +118,18 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         val checkItem: MenuItem = menu!!.findItem(R.id.action_check)
         val deleteItem: MenuItem = menu!!.findItem(R.id.action_delete)
 
+
         val searchView: SearchView = searchItem.getActionView() as SearchView
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE)
 
-        searchView.setOnClickListener {
-            checkItem.isVisible = false
-            deleteItem.isVisible = false
-        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-
             override fun onQueryTextSubmit(query: String?): Boolean {
 //                initViewModel()
                 itemsRecyclerAdapter.getFilter().filter(query)
                 Log.v("TAGGGG", "submit query:${query}")
 //                recyclerview.layoutManager?.scrollToPosition(0)
-
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
@@ -156,30 +137,19 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
                 itemsRecyclerAdapter.getFilter().filter(newText)
                 Log.v("TAGGGG", "change query:${newText}")
 //                recyclerview.layoutManager?.scrollToPosition(0)
-
                 return false
             }
         })
 
-
-        checkItem.isVisible = true
-        deleteItem.isVisible = true
         val currentapiVersion = Build.VERSION.SDK_INT
         if (currentapiVersion >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             searchItem.setOnActionExpandListener(object : MenuItemCompat.OnActionExpandListener,
                 MenuItem.OnActionExpandListener {
                 override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                    // Do something when collapsed
-                    Log.i("TAG", "onMenuItemActionCollapse " + item.itemId)
-//                    recyclerview.smoothScrollToPosition(0)
                     recyclerview.scrollToPosition(0)
                     return true // Return true to collapse action view
                 }
-
                 override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                    // TODO Auto-generated method stub
-                    Log.i("TAG"
-                        , "onMenuItemActionExpand " + item.itemId)
                     return true
                 }
             })
@@ -187,30 +157,22 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
             // do something for phones running an SDK before froyo
             searchView.setOnCloseListener(object : SearchView.OnCloseListener {
                 override fun onClose(): Boolean {
-                    Log.i("TAG", "mSearchView on close ")
-                    // TODO Auto-generated method stub
-//                    recyclerview.smoothScrollToPosition(0)
                     recyclerview.scrollToPosition(0)
                     return false
                 }
             })
         }
-
         return true
     }
 //    fun scrollToPosition(position: Int) {
 //        recyclerview.scrollToPosition(position)
 //    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        if (id == R.id.action_search) {
-           return true
-        }else if (id == R.id.action_delete){
-            return true
-        }else if (id == R.id.action_check){
-            return true
+        when(item.itemId){
+            R.id.action_search -> return true
+            R.id.action_delete ->  return true
+            R.id.action_check -> return true
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -259,6 +221,45 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         println("DEBUG: CLICKED position : $position")
         println("DEBUG: CLICKED item: $item")
     }
+
+
+
+
+
+
+
+
+
+
+
+
+//    private fun enableSwipeToDeleteAndUndo() {
+//        val callback: SwipeToDeleteCallback = object :
+//            SwipeToDeleteCallback(this) {
+//            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+//                val position = viewHolder.getAdapterPosition()
+//                val item = itemsRecyclerAdapter.getData().get(position)
+//                itemsRecyclerAdapter.removeItem(position)
+//                val snackbar = Snackbar
+//                    .make(
+//                        recyclerview,
+////                        "Item was removed from the list.",
+//                        item.title,
+//                        Snackbar.LENGTH_LONG
+//                    )
+//                snackbar.setAction("UNDO") {
+//                    itemsRecyclerAdapter.restoreItem(item, position)
+//                    recyclerview.scrollToPosition(position)
+//                }
+//                snackbar.setActionTextColor(Color.GREEN);
+//                snackbar.show();
+//            }
+//        }
+//        val itemTouchHelper = ItemTouchHelper(callback)
+//        itemTouchHelper.attachToRecyclerView(recyclerview)
+//    }
+
+
 
 
 

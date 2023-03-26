@@ -2,6 +2,7 @@ package com.farasatnovruzov.recyclerlist
 
 import android.content.Context
 import android.graphics.Color
+import android.text.Selection.selectAll
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -82,34 +84,34 @@ class ItemsRecyclerAdapter(
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
 //                deactivateMultiSelection()
-
-
             }
             itemView.setOnLongClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
                 itemView.setBackgroundColor(Color.parseColor("#E4E4E4"))
                 val checkMark = itemView.findViewById<ImageView>(R.id.notificationCheckImage)
                 checkMark.visibility = View.VISIBLE
-//                isMultiSelectModeActive = true
+                val activity = context as MainActivity
+
+                isMultiSelectModeActive = true
+                activity.selectAllVisible(isMultiSelectModeActive)
+
 //                activateMultiSelection(context)
 
-                if (!isMultiSelectModeActive) {
-//                    authOperation.isSelected = true
-//                    notifyDataSetChanged()
-                    val activity = context as MainActivity
-                    activity.selectAllVisible(isMultiSelectModeActive)
-                } else {
-//                    deactivateMultiSelection()
-//                    deselectAll()
-                }
+//                if (!isMultiSelectModeActive) {
+////                    authOperation.isSelected = true
+////                    notifyDataSetChanged()
+//                    val activity = context as MainActivity
+//                    activity.selectAllVisible(isMultiSelectModeActive)
+//                } else {
+////                    deactivateMultiSelection()
+////                    deselectAll()
+//                }
                 true
             }
 
             itemView.findViewById<TextView>(R.id.notificationTitle).text = item.title
             itemView.findViewById<TextView>(R.id.notificationBody).text = item.content
         }
-
-
 
     }
 

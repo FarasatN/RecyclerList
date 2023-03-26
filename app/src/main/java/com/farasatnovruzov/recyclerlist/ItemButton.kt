@@ -40,14 +40,13 @@ class ItemButton(private val context: Context, private val text: String, private
         var x = 0f
         var y = 0f
         if(imageResId == 0){
-            x = cWidth/2f-r.width().toFloat()
+            x = cWidth/2f-r.width()/2.toFloat()
             y = cHeight/2f+r.height()/2-r.bottom.toFloat()
             c.drawText(text,rectF.left+x,rectF.top+y,p)
-
         }else{
             val d = ContextCompat.getDrawable(context,imageResId)
             val bitmap = drawabToBitMap(d)
-            c.drawBitmap(bitmap,(rectF.left+rectF.right)/2, (rectF.top+rectF.bottom)/2,p)
+            c.drawBitmap(bitmap,(rectF.left+rectF.right)/2-bitmap.width/2,(rectF.top+rectF.bottom)/2-bitmap.height/2,p)
         }
 
         clickRegion = rectF

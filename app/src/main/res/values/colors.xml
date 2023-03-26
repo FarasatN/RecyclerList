@@ -11,5 +11,8 @@
     <color name="gray">#E4E4E4</color>
     <color name="blue">#1E76BC</color>
     <color name="light_blue">#CEFAFB</color>
-
+    <color name="colorPrimary">#1E76BC</color>
+    <color name="colorPrimaryDark">#FF000000</color>
+    <color name="colorAccent">#CEFAFB</color>
+    <color name="green">#21B32F</color>
 </resources>

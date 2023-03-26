@@ -17,14 +17,12 @@
         android:id="@+id/action_delete"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
         />
     <item
         android:id="@+id/action_check"
         android:icon="@drawable/ic_check"
         android:title="@string/check"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView"
         />
 </menu>
