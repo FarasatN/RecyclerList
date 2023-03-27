@@ -31,6 +31,22 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         = mutableListOf()
     lateinit var selectAll: ConstraintLayout
 
+    init {
+        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1))
+        for (i in 1..1000) {
+            dataList.add(ItemModel(2L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1))
+        }
+        for (i in 1..1000) {
+            dataList.add(ItemModel(333L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1))
+        }
+        dataList.add(ItemModel(444L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1))
+
+        itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, dataList)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,18 +64,6 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         recyclerview = findViewById<RecyclerView>(R.id.recyclerView)
 
 //        initViewModel()
-        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
-        for (i in 1..1000) {
-            dataList.add(ItemModel(123L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
-        }
-        for (i in 1..1000) {
-            dataList.add(ItemModel(123L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
-        }
-        dataList.add(ItemModel(123L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
 
         initRecyclerView(dataList)
 
@@ -176,7 +180,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun initRecyclerView(list: MutableList<ItemModel>){
+    fun initRecyclerView(list: MutableList<ItemModel>){
         recyclerview.setHasFixedSize(true)
         recyclerview.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
@@ -219,7 +223,7 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
     override fun onItemSelected(position: Int, item: ItemModel) {
         println("DEBUG: CLICKED position : $position")
-        println("DEBUG: CLICKED item: $item")
+        println("DEBUG: CLICKED item id: ${item.id}")
     }
 
 

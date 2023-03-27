@@ -1,17 +1,13 @@
 package com.farasatnovruzov.recyclerlist
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
-import android.text.Selection.selectAll
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.*
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +33,7 @@ class ItemsRecyclerAdapter(
             return oldItem == newItem
         }
     }
-    private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
+    val differ = AsyncListDiffer(this, DIFF_CALLBACK)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -55,9 +51,21 @@ class ItemsRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ItemModelViewHolder -> {
-                holder.bind(differ.currentList.get(position))
+                holder.bind(
+                    differ.currentList.get(position)
+//                            dataList.get(position)
+                ,differ.currentList
+                )
             }
         }
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     override fun getItemCount(): Int {
@@ -67,31 +75,43 @@ class ItemsRecyclerAdapter(
 
     init {
         differ.submitList(dataList)
-        searchedListFull.addAll(differ.currentList)
+        searchedListFull.addAll(
+            differ.currentList
+//            dataList
+        )
     }
 
-//    fun submitList(list: MutableList<ItemModel>) {
-//        differ.submitList(list)
-//    }
+    fun submitList(list: MutableList<ItemModel>) {
+        differ.submitList(list)
+    }
 
     class ItemModelViewHolder(
         itemView: View,
         private val interaction: Interaction?
             ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: ItemModel) = with(itemView) {
+        fun bind(item: ItemModel,list: MutableList<ItemModel>) = with(itemView) {
+            val checkMark = itemView.findViewById<ImageView>(R.id.notificationCheckImage)
 
             itemView.setOnClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
 //                deactivateMultiSelection()
+
+                val activity = context as MainActivity
+//                val activityDetail = DetailActivity(activity.itemsRecyclerAdapter,activity)
+
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra("title",item.title)
+                intent.putExtra("content",item.content)
+                intent.putExtra("position",adapterPosition)
+                activity.startActivity(intent)
             }
             itemView.setOnLongClickListener {
                 interaction?.onItemSelected(adapterPosition, item)
+
                 itemView.setBackgroundColor(Color.parseColor("#E4E4E4"))
-                val checkMark = itemView.findViewById<ImageView>(R.id.notificationCheckImage)
                 checkMark.visibility = View.VISIBLE
                 val activity = context as MainActivity
-
                 isMultiSelectModeActive = true
                 activity.selectAllVisible(isMultiSelectModeActive)
 
@@ -117,40 +137,41 @@ class ItemsRecyclerAdapter(
 
 
 
-    fun setAllSelected(active: Boolean) {
-        if (active) {
-            for (op in differ.currentList) {
-                op.isSelected = true
-            }
-            for (op in differ.currentList) {
-                op.isSelected = true
-            }
-//            activateMultiSelection()
-            notifyDataSetChanged()
-        } else {
-            for (op in differ.currentList) {
-                op.isSelected = false
-            }
-            for (op in differ.currentList) {
-                op.isSelected = false
-            }
-//            activateMultiSelection()
-            notifyDataSetChanged()
-        }
-//        val activity = context as NotificationActivity
-//        activity.selectAllVisible(isMultiSelectModeActive)
-    }
-    fun deselectAll() {
-        //  notificationFilterList.clear()
-        for (op in differ.currentList) {
-            op.isSelected = false
-        }
-//        clickListener.invoke(0)
-        isMultiSelectModeActive = false
-        notifyDataSetChanged()
-//        val activity = context as NotificationActivity
-//        activity.selectAllVisible(isMultiSelectModeActive)
-    }
+//    fun setAllSelected(active: Boolean) {
+//        if (active) {
+//            for (op in differ.currentList) {
+//                op.isSelected = true
+//            }
+//            for (op in differ.currentList) {
+//                op.isSelected = true
+//            }
+////            activateMultiSelection()
+//            notifyDataSetChanged()
+//        } else {
+//            for (op in differ.currentList) {
+//                op.isSelected = false
+//            }
+//            for (op in differ.currentList) {
+//                op.isSelected = false
+//            }
+////            activateMultiSelection()
+//            notifyDataSetChanged()
+//        }
+////        val activity = context as NotificationActivity
+////        activity.selectAllVisible(isMultiSelectModeActive)
+//    }
+
+//    fun deselectAll() {
+//        //  notificationFilterList.clear()
+//        for (op in differ.currentList) {
+//            op.isSelected = false
+//        }
+////        clickListener.invoke(0)
+//        isMultiSelectModeActive = false
+//        notifyDataSetChanged()
+////        val activity = context as NotificationActivity
+////        activity.selectAllVisible(isMultiSelectModeActive)
+//    }
 
     interface Interaction {
         fun onItemSelected(position: Int, item: ItemModel)
@@ -175,10 +196,6 @@ class ItemsRecyclerAdapter(
                     }
                     else{
 //                        filteredList.clear()
-//                        differ.submitList(dataList)
-//                        val activity: MainActivity = context as MainActivity
-//                        activity.scrollToPosition(0)
-
                     }
                 }
             }
@@ -188,21 +205,13 @@ class ItemsRecyclerAdapter(
         }
 
         override fun publishResults(constraint: CharSequence, results: FilterResults?) {
-//            differ.currentList.toMutableList().clear()
-//            differ.currentList.toMutableList().addAll(results!!.values as MutableList<ItemModel>)
             differ.submitList(results!!.values as MutableList<ItemModel>)
-
-
+            //dataList.addAll(results!!.values as MutableList<ItemModel>)
 //            notifyDataSetChanged()
-//            Log.v("TAGGGG", "results.values:${(results?.values as MutableList<ItemModel>).size}")
-
 
             Log.v("TAGGGG", "searchedListFull:${searchedListFull.size}")
             Log.v("TAGGGG", "differList:${differ.currentList.size}")
-
-//            dataList.clear()
-//            dataList.addAll(results!!.values as MutableList<ItemModel>)
-//            differ.submitList(dataList)
+//            Log.v("TAGGGG", "differList:${dataList.size}")
         }
     }
 
@@ -221,17 +230,22 @@ class ItemsRecyclerAdapter(
 
 
 
+
+
     fun removeItem(position: Int) {
         dataList.removeAt(position)
+        differ.submitList(dataList)
         notifyItemRemoved(position)
     }
 
     fun restoreItem(item: ItemModel, position: Int) {
         dataList.add(position, item)
+        differ.submitList(dataList)
         notifyItemInserted(position)
     }
 
     fun getData(): MutableList<ItemModel> {
-        return dataList
+        differ.submitList(dataList)
+        return differ.currentList
     }
 }
