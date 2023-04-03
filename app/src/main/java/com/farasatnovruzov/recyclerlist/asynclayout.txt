@@ -1,0 +1,81 @@
+abstract class MyAdapter : RecyclerView.Adapter<MyAdapter.ViewHolder>() {
+
+    class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        var onInflateViewHolder: (() -> Unit)? = null
+            set(value) {
+                field = value
+                if (inflated) {
+                    field?.invoke()
+                }
+            }
+        private var inflated = false
+        fun markInflated() {
+            inflated = true
+            onInflateViewHolder?.invoke()
+        }
+    }
+    
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.product_empty_card, parent, false)
+        val viewHolder = ViewHolder(view)
+        AsyncLayoutInflater(parent.context).inflate(R.layout.product_simple_card, parent) { view, resid, parent ->
+            parent?.removeAllViews()
+            parent?.addView(view)
+            viewHolder.markInflated()
+        }
+        return viewHolder
+    }
+    
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        holder.onInflateViewHolder = null
+    }
+    
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.onInflateViewHolder = {
+            onInflateViewHolder(holder, position)
+        }
+    }
+
+    private fun onInflateViewHolder(holder: ViewHolder, position: Int) {
+        // usual logic from onBindViewHolder
+    }
+
+
+
+//---------------------------------------------------------
+
+
+public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+
+    View view = layoutInflater.inflate(R.layout.async_holder_item, parent, false);
+    AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(parent.getContext());
+    asyncLayoutInflater.inflate(viewType, (ViewGroup) view, new AsyncLayoutInflater.OnInflateFinishedListener() {
+        @Override
+        public void onInflateFinished(@NonNull View view, int resid, @Nullable ViewGroup parent) {
+            parent.addView(view);
+        }
+    });
+
+    return new ItemViewHolder(view, viewType);
+}
+
+//-------------------------------------
+
+AsyncLayoutInflater inflater = new AsyncLayoutInflater(this);
+    inflater.inflate(R.layout.main, null, callback);
+
+//-------------------------------------------------------
+
+ recyclerView.postDelayed(new Runnable() {
+        @Override
+        public void run() {
+            recyclerView.setAdapter(mAdapter);
+        }
+    },100);
+
