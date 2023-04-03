@@ -100,7 +100,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layerType="software"
+            android:nestedScrollingEnabled="false"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView

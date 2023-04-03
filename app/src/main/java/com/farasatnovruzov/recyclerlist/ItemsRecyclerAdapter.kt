@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,25 @@ class ItemsRecyclerAdapter(
 //    private val searchedListFull: MutableList<ItemModel>
 //    = ArrayList(dataList),
  ) :   RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+//    val inflater = AsyncLayoutInflater(this)
+//    inflater.inflate(R.layout.main, null, callback)
+    //declare AsyncLayoutInflater
+    private lateinit var asyncLayoutInflater: AsyncLayoutInflater
+//    init asyncLayoutInflater
+//    fun initAsyncInflater() {
+//        context?.let{asyncLayoutInflater=AsyncLayoutInflater(it)}
+//    }
+//    //usage
+//    asyncLayoutInflater.inflate(R.layout.custom_marker_layout, null){
+//        customMarkerView, _, _ ->
+//    }
+
+//    val content = findViewById(android.R.id.content)
+//    AsyncLayoutInflater(this)
+//    .inflate(R.layout.activity_main, content) { view, _, _ ->
+//        binding = ActivityMainBinding.bind(view)
+//        setContentView(view)
+//    }
 
     private val searchedListFull: MutableList<ItemModel> = mutableListOf()
 

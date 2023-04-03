@@ -1,8 +1,12 @@
 package com.farasatnovruzov.recyclerlist
 
-import android.graphics.*
+import android.content.Context
+import android.graphics.Color
+import android.graphics.PointF
 import android.os.Build
 import android.os.Bundle
+import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -16,9 +20,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.RecyclerView.ItemAnimator
+import java.lang.ref.WeakReference
 import java.util.*
 
 
@@ -182,8 +186,11 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 
     fun initRecyclerView(list: MutableList<ItemModel>){
         recyclerview.setHasFixedSize(true)
-        recyclerview.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
+
+//        recyclerview.isNestedScrollingEnabled = false
+        recyclerview.layoutManager = LinearLayoutManager(this)
+//        recyclerview.apply {
+//            layoutManager = LinearLayoutManager(this@MainActivity)
 //            object:
 //            {
 //                override fun canScrollVertically(): Boolean {
@@ -197,13 +204,62 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
 //                    super.setSmoothScrollbarEnabled(false)
 //                }
 //            }
-            (layoutManager as LinearLayoutManager).setSmoothScrollbarEnabled(true)
-            recyclerview.setLayoutManager(layoutManager)
-            itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, list)
-            adapter = itemsRecyclerAdapter
-        }
-    }
+//            (layoutManager as LinearLayoutManager).setSmoothScrollbarEnabled(true)
+//            recyclerview.setLayoutManager(layoutManager)
+//            recyclerview.layoutManager = SpeedyLinearLayoutManager(context)
+//        }
 
+//        val smoothScroller = object : LinearSmoothScroller(this) {
+//            private val MILLISECONDS_PER_INCH = 150f // Change this value to modify scroll speed
+//
+//            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+//                return MILLISECONDS_PER_INCH / displayMetrics.densityDpi
+//            }
+//        }
+//        recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//                    smoothScroller.targetPosition = 0
+////                        recyclerView.layoutManager?.findFirstVisibleItemPosition() ?: 0
+//                    recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
+//                }
+//            }
+//        })
+
+//        recyclerview.layoutManager = object : LinearLayoutManager(this) {
+
+//            private val MILLISECONDS_PER_INCH = 3000f // Adjust this value to modify the speed
+//
+//            override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+//                return super.computeScrollVectorForPosition(targetPosition)?.apply {
+//                    x *= MILLISECONDS_PER_INCH / 1000f
+//                    y *= MILLISECONDS_PER_INCH / 1000f
+//                }
+//            }
+
+//            override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+//                return super.calculateSpeedPerPixel(displayMetrics) * 2 // Change this value to modify scroll speed
+//            }
+//            override fun calculateTimeForDeceleration(dx: Int): Int {
+//                return super.calculateTimeForDeceleration(dx) * 2 // Change this value to modify scroll speed
+//            }
+//        }
+
+
+//        recyclerview.layoutManager = layoutManager
+
+
+        recyclerview.setItemAnimator(null)
+        recyclerview.getItemAnimator()?.endAnimations()
+
+//        val animator: ItemAnimator = recyclerview.getItemAnimator()!!
+//        if (animator is SimpleItemAnimator) {
+//            (animator as SimpleItemAnimator).supportsChangeAnimations = false
+//        }
+        itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, list)
+        recyclerview.adapter = itemsRecyclerAdapter
+    }
 
 
 
@@ -226,16 +282,94 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
         println("DEBUG: CLICKED item id: ${item.id}")
     }
 
+class SpeedyLinearLayoutManager : LinearLayoutManager {
+        constructor(context: Context?) : super(context) {}
+        constructor(context: Context?, orientation: Int, reverseLayout: Boolean) : super(
+            context,
+            orientation,
+            reverseLayout
+        ) {
+        }
+        constructor(
+            context: Context?,
+            attrs: AttributeSet?,
+            defStyleAttr: Int,
+            defStyleRes: Int
+        ) : super(context, attrs, defStyleAttr, defStyleRes) {
+        }
+
+        companion object {
+            private const val MILISECONDS_PER_INCH = 100f //default is 25f (bigger = slower)
+        }
+
+    override fun smoothScrollToPosition(
+        recyclerView: RecyclerView,
+        state: RecyclerView.State?,
+        position: Int
+    ) {
+//        super.smoothScrollToPosition(recyclerView, state, position);
+        val linearSmoothScroller: LinearSmoothScroller =
+            object : LinearSmoothScroller(recyclerView.context) {
+                override fun computeScrollVectorForPosition(targetPosition: Int): PointF? {
+                    return super.computeScrollVectorForPosition(targetPosition)
+                }
+
+                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+//                    return super.calculateSpeedPerPixel(displayMetrics)
+                    return MILISECONDS_PER_INCH/displayMetrics.densityDpi
+                }
+            }
+        linearSmoothScroller.targetPosition = position
+        startSmoothScroll(linearSmoothScroller)
+    }
+}
 
 
 
 
+//-------------------------------------------------
+
+//    products_recycler_view.apply {
+//        setHasFixedSize(true)
+//        adapter = vm.viewAdapter.value
+//        val preCachingLinearLayoutManager = PreCachingLinearLayoutManager(context)
+//        val dm = DisplayMetrics()
+//        activity?.windowManager?.defaultDisplay?.getMetrics(dm)
+//        val extraPixels = dm.heightPixels * 2
+//        preCachingLinearLayoutManager.extraLayoutSpace = extraPixels
+//        layoutManager = preCachingLinearLayoutManager
+//        val layoutManagerReference = WeakReference(preCachingLinearLayoutManager)
+//        products_recycler_view.postDelayed({
+//            layoutManagerReference.get()?.extraLayoutSpace = dm.heightPixels / 2
+//        }, 2000L)
+//    }
 
 
+    class PreCachingLinearLayoutManager : LinearLayoutManager {
+        var extraLayoutSpace = 0
+
+        constructor(context: Context?) : super(context)
+        constructor(context: Context?, orientation: Int, reverseLayout: Boolean) : super(
+            context,
+            orientation,
+            reverseLayout
+        )
+
+        constructor(
+            context: Context?,
+            attrs: AttributeSet?,
+            defStyleAttr: Int,
+            defStyleRes: Int
+        ) : super(context, attrs, defStyleAttr, defStyleRes)
 
 
-
-
+        override fun getExtraLayoutSpace(state: RecyclerView.State): Int {
+            return if (extraLayoutSpace > 0) {
+                extraLayoutSpace
+            } else super.getExtraLayoutSpace(state)
+        }
+    }
+//---------------------------------------------------
 
 //    private fun enableSwipeToDeleteAndUndo() {
 //        val callback: SwipeToDeleteCallback = object :
