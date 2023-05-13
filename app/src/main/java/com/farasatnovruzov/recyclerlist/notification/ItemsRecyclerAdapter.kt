@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,7 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.farasatnovruzov.recyclerlist.R
 
 
 private var isMultiSelectModeActive: Boolean = false
@@ -110,7 +111,7 @@ class ItemsRecyclerAdapter(
         private val interaction: Interaction?
             ) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: ItemModel,list: MutableList<ItemModel>) = with(itemView) {
+        fun bind(item: ItemModel, list: MutableList<ItemModel>) = with(itemView) {
             val checkMark = itemView.findViewById<ImageView>(R.id.notificationCheckImage)
 
             itemView.setOnClickListener {

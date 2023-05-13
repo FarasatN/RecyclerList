@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification
 
 import android.content.Context
 import android.graphics.Color
@@ -21,8 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.*
-import androidx.recyclerview.widget.RecyclerView.ItemAnimator
-import java.lang.ref.WeakReference
+import com.farasatnovruzov.recyclerlist.R
 import java.util.*
 
 
@@ -36,18 +35,26 @@ class MainActivity : AppCompatActivity(), ItemsRecyclerAdapter.Interaction {
     lateinit var selectAll: ConstraintLayout
 
     init {
-        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
+        dataList.add(
+            ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1)
+        )
         for (i in 1..1000) {
-            dataList.add(ItemModel(2L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
+            dataList.add(
+                ItemModel(2L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1)
+            )
         }
         for (i in 1..1000) {
-            dataList.add(ItemModel(333L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
+            dataList.add(
+                ItemModel(333L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1)
+            )
         }
-        dataList.add(ItemModel(444L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
+        dataList.add(
+            ItemModel(444L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1)
+        )
 
         itemsRecyclerAdapter = ItemsRecyclerAdapter(this@MainActivity,this@MainActivity, dataList)
     }
@@ -316,7 +323,7 @@ class SpeedyLinearLayoutManager : LinearLayoutManager {
 
                 override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
 //                    return super.calculateSpeedPerPixel(displayMetrics)
-                    return MILISECONDS_PER_INCH/displayMetrics.densityDpi
+                    return MILISECONDS_PER_INCH /displayMetrics.densityDpi
                 }
             }
         linearSmoothScroller.targetPosition = position

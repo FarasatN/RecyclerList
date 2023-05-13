@@ -1,9 +1,8 @@
-package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainViewModel: ViewModel() {
 
@@ -13,18 +12,26 @@ class MainViewModel: ViewModel() {
     init {
         liveDataList = MutableLiveData()
         dataList = mutableListOf()
-        dataList.add(ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
+        dataList.add(
+            ItemModel(1L,1.toLong(),"Farasat card","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1)
+        )
         for (i in 1..1000) {
-            dataList.add(ItemModel(123L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
+            dataList.add(
+                ItemModel(123L+i,i.toLong(),"Novruz Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1)
+            )
         }
         for (i in 1..1000) {
-            dataList.add(ItemModel(123L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
-                Date().toString(),1,"WithUrl",0,false,2,1))
+            dataList.add(
+                ItemModel(123L+i,i.toLong(),"Ramazan Kampaniyasi","19-24 Mart Mohtesem Kampaniya","xyz",
+                Date().toString(),1,"WithUrl",0,false,2,1)
+            )
         }
-        dataList.add(ItemModel(123L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
-            Date().toString(),1,"WithUrl",0,false,2,1))
+        dataList.add(
+            ItemModel(123L,1.toLong(),"Fərasət üçün","19-24 Mart Mohtesem Kampaniya","xyz",
+            Date().toString(),1,"WithUrl",0,false,2,1)
+        )
 
 //        liveDataList.value = dataList
     }
@@ -49,7 +56,7 @@ class MainViewModel: ViewModel() {
         liveDataList.value = dataList
     }
 
-    fun getItem(position: Int): ItemModel{
+    fun getItem(position: Int): ItemModel {
         dataList.get(position)
         liveDataList.value = dataList
 

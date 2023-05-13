@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -28,7 +28,7 @@ abstract class SwipeHelper(context: Context, private val recyclerView: RecyclerV
     abstract fun instantiateButton(viewHolder: RecyclerView.ViewHolder,buffer: MutableList<ItemButton>)
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener(){
-        override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
             for (button in buttonList!!){
                 if (button.onClick(e!!.x,e.y)){
                     break

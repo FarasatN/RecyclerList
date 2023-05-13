@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist;
+package com.farasatnovruzov.recyclerlist.notification;
 
 import android.content.Context;
 import android.graphics.PointF;

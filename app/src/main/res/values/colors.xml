@@ -15,4 +15,6 @@
     <color name="colorPrimaryDark">#FF000000</color>
     <color name="colorAccent">#CEFAFB</color>
     <color name="green">#21B32F</color>
+    <color name="profile_txt_color">#717171</color>
+    <color name="dark_gray">#373737</color>
 </resources>

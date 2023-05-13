@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist;
+package com.farasatnovruzov.recyclerlist.notification;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;

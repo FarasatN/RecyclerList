@@ -6,4 +6,24 @@
     <string name="notification_not_found">Notification not found</string>
     <string name="select_all">Select all</string>
     <string name="cancel">Cancel</string>
+    <string name="keyword_profile">Keyword</string>
+    <string name="email_profile">Email</string>
+    <string name="phone_number_profile">Phone number</string>
+    <string name="client_type_profile">Client type</string>
+    <string name="client_id_profile">Client ID:</string>
+    <string name="security_profile">Security</string>
+    <string name="terms_and_condition_profile">Terms and condition</string>
+    <string name="about_application_profile">About application</string>
+    <string name="turanbank_app_profile">Turanbank app</string>
+    <string name="password_profile">Password</string>
+    <string name="pin_profile">Pin</string>
+    <string name="touch_id_profile">Touch ID</string>
+    <string name="applied_profile">Applied</string>
+    <string name="not_applied_profile">Not applied</string>
+    <string name="face_id_profile">Face ID</string>
+    <string name="screenshot_profile">Screenshot</string>
+    <string name="devices_profile">Devices</string>
+    <string name="language_profile">Language</string>
+    <string name="google_pay_profile">Google pay</string>
+    <string name="googlepay_added">Added</string>
 </resources>

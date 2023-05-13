@@ -1,4 +1,4 @@
-//package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification//package com.farasatnovruzov.recyclerlist
 //
 //import android.content.Context
 //import android.content.Intent

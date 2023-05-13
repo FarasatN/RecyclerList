@@ -1,4 +1,4 @@
-package com.farasatnovruzov.recyclerlist;
+package com.farasatnovruzov.recyclerlist.notification;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.farasatnovruzov.recyclerlist.R;
 
 
 abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {

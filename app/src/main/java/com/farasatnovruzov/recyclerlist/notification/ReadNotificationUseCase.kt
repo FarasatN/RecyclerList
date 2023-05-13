@@ -1,4 +1,4 @@
-//package com.farasatnovruzov.recyclerlist
+package com.farasatnovruzov.recyclerlist.notification//package com.farasatnovruzov.recyclerlist
 //
 //import az.turanbank.mlb.domain.user.data.MainRepositoryType
 //import az.turanbank.mlb.util.EnumLangType
