@@ -26,4 +26,9 @@
     <string name="language_profile">Language</string>
     <string name="google_pay_profile">Google pay</string>
     <string name="googlepay_added">Added</string>
+    <string name="successfull_new">Successfull!</string>
+    <string name="operation_successfull">Operation has been successfull</string>
+    <string name="close">Close</string>
+    <string name="operation_error">Operation hasn\'t been</string>
+    <string name="error_new">Error</string>
 </resources>
