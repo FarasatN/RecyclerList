@@ -14,6 +14,8 @@ class CustomerInfoActivity : AppCompatActivity() {
 
         val customerInfoImg = findViewById<ConstraintLayout>(R.id.customerInfoImg)
         val clientTypeCard = findViewById<CardView>(R.id.clientTypeCard)
+        val phoneNumberCard = findViewById<CardView>(R.id.phoneNumberCard)
+        val emailCard = findViewById<CardView>(R.id.emailCard)
 
         customerInfoImg.setOnClickListener {
             val intent = Intent(this, SuccessActivity::class.java)
@@ -22,6 +24,16 @@ class CustomerInfoActivity : AppCompatActivity() {
 
         clientTypeCard.setOnClickListener {
             val intent = Intent(this, ErrorActivity::class.java)
+            startActivity(intent)
+        }
+
+        phoneNumberCard.setOnClickListener {
+            val intent = Intent(this, InformationActivity::class.java)
+            startActivity(intent)
+        }
+
+        emailCard.setOnClickListener {
+            val intent = Intent(this, LanguageActivity::class.java)
             startActivity(intent)
         }
     }
