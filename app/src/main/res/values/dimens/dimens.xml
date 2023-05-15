@@ -1,0 +1,16 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="pin_keyboard_button_text_size">24sp</dimen>
+    <dimen name="pin_keyboard_button_cancel_text_size">24sp</dimen>
+    <dimen name="profile_image_size">100dp</dimen>
+    <dimen name="profile_image_size_profile_screen">150dp</dimen>
+    <dimen name="pin_keyboard_item_padding">16dp</dimen>
+    <dimen name="stc_pin_view_height">12dp</dimen>
+    <dimen name="home_plastic_card_item_width">300dp</dimen>
+    <dimen name="home_plastic_card_item_height">180dp</dimen>
+    <dimen name="home_plastic_card_amount_text">22sp</dimen>
+    <dimen name="home_plastic_card_account_text">12sp</dimen>
+    <dimen name="home_plastic_card_detail_margin_start">12dp</dimen>
+    <dimen name="home_plastic_card_account_bottom_margin">24dp</dimen>
+
+</resources>

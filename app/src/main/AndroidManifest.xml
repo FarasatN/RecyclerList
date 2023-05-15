@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.farasatnovruzov.recyclerlist">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,6 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RecyclerList"
         tools:targetApi="31">
+        <activity
+            android:name=".GooglePayActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditKeywordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.OTPActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.EditEmailActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.EditPhoneNumberActivity"
             android:exported="false" />

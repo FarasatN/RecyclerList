@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="30dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/calcFirstRow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/button1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="1"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="2"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="3"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calcSecondRow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="4"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="5"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="6"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/calcThirdRow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/button7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="7"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button8"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="8"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/button9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+
+                android:text="9"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/calcFourthRow"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/buttonCancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/cancel"
+            android:textColor="@color/gray"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/button0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="25dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="25dp"
+                android:paddingBottom="15dp"
+                android:text="0"
+                android:textColor="@color/dark_gray"
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/buttonDelete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="X"
+            android:textColor="@color/gray"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="4">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <Button
+                    android:id="@+id/button1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="1"
+                    android:layout_weight="1"
+                    />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="2"
+                    android:layout_weight="1"
+                    />
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="3"
+                    />
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="4"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="5"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="6"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+            </TableRow>
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/button7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="7"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/button8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="8"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/button9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="9"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/buttonCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/gray"
+                    android:text="@string/cancel_camel_case"
+                    android:textSize="@dimen/pin_keyboard_button_cancel_text_size"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/button0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/dark_gray"
+                    android:text="0"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/buttonDelete"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:layout_height="match_parent"
+                    android:paddingTop="@dimen/pin_keyboard_item_padding"
+                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
+                    android:fontFamily="@font/roboto_regular"
+                    android:background="@color/white"
+                    android:textColor="@color/gray"
+                    android:text="x"
+                    android:textSize="@dimen/pin_keyboard_button_text_size"
+                    android:layout_weight="1"/>
+            </TableRow>
+        </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>-->

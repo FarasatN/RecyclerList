@@ -16,6 +16,7 @@ class CustomerInfoActivity : AppCompatActivity() {
         val clientTypeCard = findViewById<CardView>(R.id.clientTypeCard)
         val phoneNumberCard = findViewById<CardView>(R.id.phoneNumberCard)
         val emailCard = findViewById<CardView>(R.id.emailCard)
+        val keywordCard = findViewById<CardView>(R.id.keywordCard)
 
         customerInfoImg.setOnClickListener {
             val intent = Intent(this, SuccessActivity::class.java)
@@ -33,7 +34,12 @@ class CustomerInfoActivity : AppCompatActivity() {
         }
 
         emailCard.setOnClickListener {
-            val intent = Intent(this, LanguageActivity::class.java)
+            val intent = Intent(this, EditPhoneNumberActivity::class.java)
+            startActivity(intent)
+        }
+
+        keywordCard.setOnClickListener {
+            val intent = Intent(this, EditEmailActivity::class.java)
             startActivity(intent)
         }
     }
