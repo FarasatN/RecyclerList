@@ -16,7 +16,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/languageCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="78dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
@@ -32,7 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="18dp">
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +77,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/googlepayCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="78dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
@@ -92,7 +93,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="18dp">
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -136,7 +138,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/aboutAppCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="78dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
@@ -152,7 +154,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="18dp">
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
