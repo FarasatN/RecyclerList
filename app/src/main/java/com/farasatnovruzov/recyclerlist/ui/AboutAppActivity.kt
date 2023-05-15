@@ -12,7 +12,13 @@ class AboutAppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about_app)
 
 
+        val googlepayCard = findViewById<CardView>(R.id.googlepayCard)
         val aboutAppCard = findViewById<CardView>(R.id.aboutAppCard)
+
+        googlepayCard.setOnClickListener {
+            val intent = Intent(this, GooglePayActivity::class.java)
+            startActivity(intent)
+        }
 
         aboutAppCard.setOnClickListener {
             val intent = Intent(this, PinActivity::class.java)
