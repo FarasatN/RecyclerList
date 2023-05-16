@@ -51,4 +51,8 @@
     <string name="send_code_again">I haven\'t code</string>
     <string name="confirm">Confirm</string>
     <string name="confirm_txt">Confirm</string>
+    <string name="your_pin">Your PIN</string>
+    <string name="old_pin">Old PIN</string>
+    <string name="create_new_pin">Create new PIN</string>
+    <string name="repeat_new_pin">Repeat new PIN</string>
 </resources>

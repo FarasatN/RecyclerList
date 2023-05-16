@@ -64,4 +64,5 @@
         <attr name="dots_drawable" format="reference"/>
     </declare-styleable>
 
+
 </resources>

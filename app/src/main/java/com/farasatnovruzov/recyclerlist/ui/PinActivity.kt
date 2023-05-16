@@ -7,6 +7,11 @@ import com.farasatnovruzov.recyclerlist.R
 class PinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pin)
+        setContentView(R.layout.activity_pin3)
+
+        val pin = findViewById<StcPinView>(R.id.createNewPinView)
+        val pin2 = findViewById<StcPinView>(R.id.createNewPinView)
+
+        pin.showSoftInputOnFocus = true
     }
 }

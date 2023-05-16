@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginHorizontal="30dp"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        >
+        android:theme="@style/ItemCountCalculatorButton">
 
         <LinearLayout
             android:id="@+id/button1"
@@ -24,6 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -48,6 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -72,6 +75,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -93,7 +97,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        >
+        android:theme="@style/ItemCountCalculatorButton">
 
         <LinearLayout
             android:id="@+id/button4"
@@ -106,6 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -130,6 +135,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -154,6 +160,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -175,7 +182,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        >
+        android:theme="@style/ItemCountCalculatorButton">
 
         <LinearLayout
             android:id="@+id/button7"
@@ -188,6 +195,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -212,6 +220,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -236,6 +245,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -258,18 +268,19 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        >
+        android:theme="@style/ItemCountCalculatorButton">
 
         <TextView
             android:id="@+id/buttonCancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/background"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="@string/cancel"
+            android:text="@string/cancel_camel_case"
             android:textColor="@color/gray"
             android:textSize="20sp" />
 
@@ -284,6 +295,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_button_background"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="25dp"
                 android:paddingTop="15dp"
@@ -302,6 +314,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
 
+            android:background="@color/background"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="X"

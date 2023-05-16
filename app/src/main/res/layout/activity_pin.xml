@@ -22,46 +22,6 @@
         app:layout_constraintTop_toBottomOf="@+id/includeToolbar"
         app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:id="@+id/profileLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:layout_marginBottom="40dp"
-            app:layout_constraintBottom_toTopOf="@+id/pin">
-
-            <FrameLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="6dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.149">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:padding="2dp"
-                    android:src="@drawable/circle_logo"
-                    app:civ_border_color="@color/white" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/fullName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Axundzadə Elvin Azər"
-                android:textSize="15sp" />
-
-        </LinearLayout>
 
         <com.farasatnovruzov.recyclerlist.ui.StcPinView
             android:id="@+id/pin"
@@ -76,7 +36,7 @@
             android:focusableInTouchMode="false"
             android:fontFamily="@font/roboto_regular"
             android:inputType="numberPassword"
-            android:itemBackground="@drawable/ic_launcher_background"
+            android:itemBackground="@drawable/pin_background"
             android:maxLength="4"
             android:selectAllOnFocus="true"
             android:textColor="@color/colorPrimary"
@@ -190,3 +150,40 @@
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+<!--<az.turanbank.mlb.presentation.view.StcPinView-->
+<!--android:id="@+id/pin"-->
+<!--style="@style/PinWidget.PinView"-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_gravity="center"-->
+<!--android:layout_marginTop="46dp"-->
+<!--android:clickable="false"-->
+<!--android:cursorVisible="false"-->
+<!--android:focusable="false"-->
+<!--android:focusableInTouchMode="false"-->
+<!--android:fontFamily="@font/roboto_regular"-->
+<!--android:inputType="numberPassword"-->
+<!--android:itemBackground="@drawable/pin_background"-->
+<!--android:maxLength="4"-->
+<!--android:selectAllOnFocus="true"-->
+<!--android:textColor="@color/colorPrimary"-->
+<!--android:textCursorDrawable="@null"-->
+<!--android:textIsSelectable="true"-->
+<!--android:textSize="16sp"-->
+<!--android:textStyle="bold"-->
+<!--app:cursorColor="@color/transparent"-->
+<!--app:cursorWidth="0dp"-->
+<!--app:hideLineWhenFilled="true"-->
+<!--app:itemHeight="16dp"-->
+<!--app:itemRadius="5dp"-->
+<!--app:itemSpacing="10dp"-->
+<!--app:itemWidth="16dp"-->
+<!--app:layout_constraintEnd_toEndOf="parent"-->
+<!--app:layout_constraintStart_toStartOf="parent"-->
+<!--app:layout_constraintBottom_toBottomOf="parent"-->
+<!--app:lineColor="@color/white"-->
+<!--app:lineWidth="0dp"-->
+<!--tools:text="11" />-->
