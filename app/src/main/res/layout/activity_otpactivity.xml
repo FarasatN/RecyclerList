@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.InformationActivity">
+    android:background="#FAFAFA">
 
     <include
         android:id="@+id/includeToolbar"
@@ -13,76 +13,169 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/otpVerification"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/editEmailCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeToolbar">
 
-
-    </TextView>
-
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/editEmailCard"
-        android:layout_width="match_parent"
-        android:layout_height="78dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:clickable="true"
-        android:elevation="1dp"
-        app:background="@color/white"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/closeBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingHorizontal="15dp"
-            android:paddingVertical="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/auth_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="74dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:text="@string/otp_verification"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/otp_description"
+                android:textColor="@color/profile_txt_color"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginVertical="4dp"
+                android:layout_marginEnd="12dp"
+                android:gravity="center"
+                android:textColor="@color/profile_txt_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/auth_message" />
+
+            <com.farasatnovruzov.recyclerlist.ui.StcPinView
+                android:focusable="true"
+                android:background="#F1F1F1"
+                android:elevation="4dp"
+                android:id="@+id/pinCodeView"
+                style="@style/PinWidget.PinView"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="4"
-                android:orientation="vertical">
+                android:layout_marginTop="4dp"
+                android:cursorVisible="false"
+                android:fontFamily="@font/roboto_regular"
+                android:inputType="number"
+                android:itemBackground="@drawable/red_edittext_style"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="20.5sp"
+                android:textStyle="bold"
+                app:cursorColor="@color/transparent"
+                app:cursorWidth="0dp"
+                app:hideLineWhenFilled="true"
+                app:itemCount="6"
+                app:itemHeight="54dp"
+                app:itemRadius="5dp"
+                app:itemSpacing="4dp"
+                app:itemWidth="54dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lineColor="@color/white"
+                app:lineWidth="0dp"
+                app:viewType="rectangle" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/sendOtpAgain_"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="@string/email_profile"
-                    android:textColor="@color/profile_txt_color"
-                    android:textSize="13sp"
-                    android:textStyle="normal" />
-
-                <EditText
-                    android:id="@+id/yourKeywordEt"
-                    style="@style/Theme.RecyclerList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:fontFamily="sans-serif"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:text="test@tnb.az"
-                    android:textColor="@color/black"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:lineSpacingExtra="8sp"
+                    android:text="@string/send_code_again"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="16sp"
-                    android:textStyle="normal" />
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pinCodeView" />
+
+                <TextView
+                    android:visibility="gone"
+                    android:gravity="end"
+                    android:id="@+id/timer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginRight="16dp"
+                    android:text="2:59"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintTop_toBottomOf="@+id/pinCodeView" />
             </LinearLayout>
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </ScrollView>
+
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/submitButton"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="60dp"-->
+<!--        android:background="@color/colorPrimary"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:gravity="center"-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:ignore="UnusedAttribute"-->
+<!--        tools:targetApi="m">-->
+
+<!--        <ImageView-->
+<!--            android:id="@+id/progressImage"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_margin="16dp"-->
+<!--            android:visibility="gone" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/submitText"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:fontFamily="@font/roboto_regular"-->
+<!--            android:text="@string/confirm"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="16sp" />-->
+<!--    </LinearLayout>-->
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/closeBtn"
+        android:id="@+id/confirmBtn"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginHorizontal="16dp"
@@ -99,8 +192,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="16sp"
+            android:fontFamily="@font/roboto_regular"
             android:textColor="@color/white"
-            android:text="@string/close">
+            android:text="@string/confirm_txt">
         </TextView>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

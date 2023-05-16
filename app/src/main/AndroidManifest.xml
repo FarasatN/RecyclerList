@@ -15,6 +15,9 @@
         android:theme="@style/Theme.RecyclerList"
         tools:targetApi="31">
         <activity
+            android:name=".ui.NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.GooglePayActivity"
             android:exported="false" />
         <activity
@@ -27,6 +30,7 @@
             android:name=".ui.EditKeywordActivity"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:name=".ui.OTPActivity"
             android:exported="false" />
         <activity

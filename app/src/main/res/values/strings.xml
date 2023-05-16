@@ -42,4 +42,13 @@
     <string name="new_password_profile">New password</string>
     <string name="repeat_password_profile">Repeat password</string>
     <string name="add_new">+ Add new</string>
+    <string name="current_device_profile">Current device</string>
+    <string name="added_device_profile">Added device</string>
+    <string name="new_mobile_device_notification">New mobile device</string>
+    <string name="decline_device">Decline</string>
+    <string name="otp_description">" OTP code sent your number +994 55 225 18 39"</string>
+    <string name="otp_verification">OTP verification</string>
+    <string name="send_code_again">I haven\'t code</string>
+    <string name="confirm">Confirm</string>
+    <string name="confirm_txt">Confirm</string>
 </resources>
