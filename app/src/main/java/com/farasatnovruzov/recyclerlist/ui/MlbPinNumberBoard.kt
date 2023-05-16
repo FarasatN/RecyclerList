@@ -11,6 +11,7 @@ import android.view.inputmethod.ExtractedTextRequest
 import android.view.inputmethod.InputConnection
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import com.farasatnovruzov.recyclerlist.R
 
 
@@ -62,18 +63,18 @@ class MlbPinNumberBoard : LinearLayout, View.OnClickListener {
     private fun init(context: Context) {
         LayoutInflater.from(context).inflate(R.layout.test, this, true)
 
-        val button1 = findViewById<LinearLayout>(R.id.button1)
-        val button2 = findViewById<LinearLayout>(R.id.button2)
-        val button3 = findViewById<LinearLayout>(R.id.button3)
-        val button4 = findViewById<LinearLayout>(R.id.button4)
-        val button5 = findViewById<LinearLayout>(R.id.button5)
-        val button6 = findViewById<LinearLayout>(R.id.button6)
-        val button7 = findViewById<LinearLayout>(R.id.button7)
-        val button8 = findViewById<LinearLayout>(R.id.button8)
-        val button9 = findViewById<LinearLayout>(R.id.button9)
-        val button0 = findViewById<LinearLayout>(R.id.button0)
-        val buttonCancel = findViewById<TextView>(R.id.buttonCancel)
-        val buttonDelete = findViewById<TextView>(R.id.buttonDelete)
+        val button1 = findViewById<CardView>(R.id.button1)
+        val button2 = findViewById<CardView>(R.id.button2)
+        val button3 = findViewById<CardView>(R.id.button3)
+        val button4 = findViewById<CardView>(R.id.button4)
+        val button5 = findViewById<CardView>(R.id.button5)
+        val button6 = findViewById<CardView>(R.id.button6)
+        val button7 = findViewById<CardView>(R.id.button7)
+        val button8 = findViewById<CardView>(R.id.button8)
+        val button9 = findViewById<CardView>(R.id.button9)
+        val button0 = findViewById<CardView>(R.id.button0)
+        val buttonCancel = findViewById<CardView>(R.id.buttonCancel)
+        val buttonDelete = findViewById<CardView>(R.id.buttonDelete)
 
         button1.setOnClickListener(this)
         button2.setOnClickListener(this)
