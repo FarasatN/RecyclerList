@@ -55,4 +55,5 @@
     <string name="old_pin">Old PIN</string>
     <string name="create_new_pin">Create new PIN</string>
     <string name="repeat_new_pin">Repeat new PIN</string>
+    <string name="cancel_camel_case">Cancel</string>
 </resources>
