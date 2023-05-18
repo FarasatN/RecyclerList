@@ -71,7 +71,7 @@
 
                         <EditText
                             android:id="@+id/editPhoneNumberEt"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif"
                             android:text="55 222 22 22"
@@ -79,11 +79,12 @@
                             android:textSize="16sp"
                             android:textStyle="normal"
                             android:inputType="phone"
-                            android:digits="0123456789+"
+                            android:digits="0123456789"
                             android:maxLines="1"
-                            android:layout_gravity="center"
-                            android:gravity="center"
+                            android:layout_gravity="start"
+                            android:gravity="start"
                             android:maxLength="9"
+                            style="@style/EditTextProfile"
                             />
 
                     </LinearLayout>
@@ -130,7 +131,7 @@
                     android:textStyle="normal" />
                 <EditText
                     android:id="@+id/yourKeywordEt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
                     android:text="XXXX"
@@ -139,6 +140,7 @@
                     android:textStyle="normal"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    style="@style/EditTextProfile"
                     />
             </LinearLayout>
 
