@@ -18,4 +18,5 @@
     <color name="profile_txt_color">#50555C</color>
     <color name="dark_gray">#373737</color>
     <color name="transparent">#00ffffff</color>
+    <color name="light_gray">#F4F4F4</color>
 </resources>
