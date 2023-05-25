@@ -91,6 +91,12 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/light_gray"
+        />
+
     <LinearLayout
         android:id="@+id/calcSecondRow"
         android:layout_width="match_parent"
@@ -174,6 +180,12 @@
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/light_gray"
+        />
 
     <LinearLayout
         android:id="@+id/calcThirdRow"
@@ -260,11 +272,16 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/light_gray"
+        />
+
     <LinearLayout
         android:id="@+id/calcFourthRow"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="40dp"
         android:layout_weight="1"
         android:orientation="horizontal"
         android:layout_gravity="center"
@@ -347,192 +364,10 @@
                 android:textSize="24sp" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
-</LinearLayout>
 
-    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:weightSum="4">
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_height="match_parent">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <Button
-                    android:id="@+id/button1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="1"
-                    android:layout_weight="1"
-                    />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="2"
-                    android:layout_weight="1"
-                    />
-
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="3"
-                    />
-            </TableRow>
-
-            <TableRow>
-
-                <Button
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="4"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/button5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="5"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/button6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="6"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-            </TableRow>
-
-            <TableRow>
-
-                <Button
-                    android:id="@+id/button7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="7"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-                <Button
-                    android:id="@+id/button8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="8"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/button9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="9"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:id="@+id/buttonCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/gray"
-                    android:text="@string/cancel_camel_case"
-                    android:textSize="@dimen/pin_keyboard_button_cancel_text_size"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/button0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/dark_gray"
-                    android:text="0"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-
-                <TextView
-                    android:id="@+id/buttonDelete"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="match_parent"
-                    android:paddingTop="@dimen/pin_keyboard_item_padding"
-                    android:paddingBottom="@dimen/pin_keyboard_item_padding"
-                    android:fontFamily="@font/roboto_regular"
-                    android:background="@color/white"
-                    android:textColor="@color/gray"
-                    android:text="x"
-                    android:textSize="@dimen/pin_keyboard_button_text_size"
-                    android:layout_weight="1"/>
-            </TableRow>
-        </TableLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
+        android:layout_height="44dp"
+        android:background="@color/light_gray"
+        />
+</LinearLayout>
