@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.farasatnovruzov.recyclerlist"
-        minSdk 24
+        minSdk 23
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -30,13 +30,16 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
 
 
-//    implementation 'androidx.appcompat:appcompat:1.6.1'
     def nav_version = "2.1.0"
     def dagger = "2.24"
     def retrofit_version = "2.6.0"

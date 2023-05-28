@@ -4,10 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
 
 
-class OTPActivity : AppCompatActivity() {
+class OTPActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otpactivity)

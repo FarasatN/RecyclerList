@@ -143,7 +143,6 @@
                     app:passwordToggleTint="@color/black"
                     style="@style/EditTextProfile"
                     app:hintEnabled="false"
-                    app:expandedHintEnabled="false"
                     >
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_gravity="center"

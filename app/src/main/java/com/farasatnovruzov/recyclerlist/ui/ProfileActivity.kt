@@ -1,18 +1,80 @@
 package com.farasatnovruzov.recyclerlist.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.webkit.WebView
-import androidx.biometric.BiometricManager
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
+import java.util.concurrent.Executor
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
+
+    lateinit var executor: Executor
+    lateinit var biometricPrompt: BiometricPrompt
+    lateinit var promptInfo: BiometricPrompt.PromptInfo
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        executor = ContextCompat.getMainExecutor(this@ProfileActivity)
+
+        biometricPrompt = BiometricPrompt(this@ProfileActivity,executor,
+            object : BiometricPrompt.AuthenticationCallback(){
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Toast.makeText(this@ProfileActivity,"Authentication failed",Toast.LENGTH_LONG).show()
+
+                }
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    Toast.makeText(this@ProfileActivity,"Authentication succeeded",Toast.LENGTH_LONG).show()
+                }
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Toast.makeText(this@ProfileActivity,"Authentication error $errString",Toast.LENGTH_LONG).show()
+                }
+            })
+
+
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG)
+//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+            .setTitle("Biometric Authentication")
+            .setSubtitle("Login using your biometric credential")
+            .setNegativeButtonText("Cancel")
+            .build()
+        val touchId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("touchId",false)
+        val faceId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("faceId",false)
+        val irisId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("irisId",false)
+
+//        if(this.getSystemService(BiometricManager::class.java)?.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS){
+//        if(promptInfo.allowedAuthenticators==BiometricManager.Authenticators.BIOMETRIC_WEAK){
+            if (touchId){
+                biometricPrompt.authenticate(promptInfo)
+            }
+            if(faceId){
+                biometricPrompt.authenticate(promptInfo)
+            }
+            if(irisId){
+                biometricPrompt.authenticate(promptInfo)
+            }
+//        }
+
+
+
+
+
+
+ //------------------------------------------------
 
         val customerInfoCard = findViewById<CardView>(R.id.customerInfoCard)
         val securityCard = findViewById<CardView>(R.id.securityCard)
@@ -30,6 +92,8 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(this, AboutAppActivity::class.java)
             startActivity(intent)
         }
+
+
 
 
 

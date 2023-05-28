@@ -5,9 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
 
-class CustomerInfoActivity : AppCompatActivity() {
+class CustomerInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customer_info)
