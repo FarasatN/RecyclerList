@@ -25,7 +25,6 @@ import com.farasatnovruzov.recyclerlist.databinding.ActivitySecurityBinding
 class SecurityActivity : BaseActivity() {
 
     lateinit var binding: ActivitySecurityBinding
-    var deviceName = "unknown"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,25 +36,26 @@ class SecurityActivity : BaseActivity() {
 //            else if (Settings.Secure.getString(contentResolver,"bluetooth_name")!=null){
 //                deviceName = Settings.Secure.getString(contentResolver,"bluetooth_name")
 //            }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            if (Settings.Global.getString(contentResolver,Settings.Global.DEVICE_NAME)!=null){
-                deviceName = Settings.Global.getString(contentResolver,Settings.Global.DEVICE_NAME)
-            }else{
-                if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
-                    deviceName = Build.MODEL.capitalize()
-                } else {
-                    deviceName = Build.MANUFACTURER.capitalize()+" "+Build.MODEL
-                }
-            }
-        }else{
-            if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
-                deviceName = Build.MODEL.capitalize()
-            } else {
-                deviceName = Build.MANUFACTURER.capitalize()+" "+Build.MODEL
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+//            if (Settings.Global.getString(contentResolver,Settings.Global.DEVICE_NAME)!=null){
+//                deviceName = Settings.Global.getString(contentResolver,Settings.Global.DEVICE_NAME)
+//            }else{
+//                if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
+//                    deviceName = Build.MODEL.capitalize()
+//                } else {
+//                    deviceName = Build.MANUFACTURER.capitalize()+" "+Build.MODEL
+//                }
+//            }
+//        }else{
+//            if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
+//                deviceName = Build.MODEL.capitalize()
+//            } else {
+//                deviceName = Build.MANUFACTURER.capitalize()+" "+Build.MODEL
+//            }
+//        }
 
-        binding.devicesTxt.text = deviceName
+
+        binding.devicesTxt.text = deviceName()
 
         if (this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)){
             binding.touchIdCard.visibility = View.VISIBLE
@@ -235,16 +235,13 @@ class SecurityActivity : BaseActivity() {
 
     }
 
-
-
-
-
-
-
-
-
-
-
+    fun deviceName() : String {
+        if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
+            return Build.MODEL.capitalize()
+        } else {
+            return Build.MANUFACTURER.capitalize() + " " + Build.MODEL
+        }
+    }
 
 
 //    private val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
