@@ -22,7 +22,6 @@ class ProfileActivity : BaseActivity() {
     lateinit var executor: Executor
     lateinit var biometricPrompt: BiometricPrompt
     lateinit var promptInfo: BiometricPrompt.PromptInfo
-    var biometricApplied = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

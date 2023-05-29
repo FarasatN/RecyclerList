@@ -90,7 +90,7 @@ class SecurityActivity : BaseActivity() {
         }
 
         if(this.packageManager.hasSystemFeature(PackageManager.FEATURE_FACE)){
-            println("face")
+            println("faceId")
             binding.faceIdCard.visibility = View.VISIBLE
             val faceId = getSharedPreferences("user",Context.MODE_PRIVATE).getBoolean("faceId",false)
             if(faceId){
@@ -100,7 +100,7 @@ class SecurityActivity : BaseActivity() {
         }
 
         if(this.packageManager.hasSystemFeature(PackageManager.FEATURE_IRIS)){
-            println("iris")
+            println("irisId")
             binding.irisIdCard.visibility = View.VISIBLE
             val irisId = getSharedPreferences("user",Context.MODE_PRIVATE).getBoolean("irisId",false)
             if(irisId){
@@ -178,7 +178,6 @@ class SecurityActivity : BaseActivity() {
                     putBoolean("screenshotIsAllowed",true)
                     apply()
                 }
-//                ScreenshotUtil.screenshotIsAllowed = true
                 binding.screenshotTxt.text = getString(R.string.applied_profile)
                 Toast.makeText(this,"Screenshot is allowed",Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, SecurityActivity::class.java)
@@ -189,7 +188,6 @@ class SecurityActivity : BaseActivity() {
                     putBoolean("screenshotIsAllowed",false)
                     apply()
                 }
-//                ScreenshotUtil.screenshotIsAllowed = false
                 binding.screenshotTxt.text = getString(R.string.not_applied_profile)
                 Toast.makeText(this,"Screenshot is not allowed",Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, SecurityActivity::class.java)
