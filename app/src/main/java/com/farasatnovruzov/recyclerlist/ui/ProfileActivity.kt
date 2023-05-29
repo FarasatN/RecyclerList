@@ -1,6 +1,8 @@
 package com.farasatnovruzov.recyclerlist.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -20,6 +22,7 @@ class ProfileActivity : BaseActivity() {
     lateinit var executor: Executor
     lateinit var biometricPrompt: BiometricPrompt
     lateinit var promptInfo: BiometricPrompt.PromptInfo
+    var biometricApplied = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +61,12 @@ class ProfileActivity : BaseActivity() {
 
 //        if(this.getSystemService(BiometricManager::class.java)?.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS){
 //        if(promptInfo.allowedAuthenticators==BiometricManager.Authenticators.BIOMETRIC_WEAK){
+
+        if (getSharedPreferences("user", MODE_PRIVATE).contains("faceId") ||
+            getSharedPreferences("user", MODE_PRIVATE).contains("touchId") ||
+            getSharedPreferences("user", MODE_PRIVATE).contains("irisId") ||
+            getSharedPreferences("user", MODE_PRIVATE).contains("screenshotIsAllowed")
+                ){
             if (touchId){
                 biometricPrompt.authenticate(promptInfo)
             }
@@ -67,6 +76,15 @@ class ProfileActivity : BaseActivity() {
             if(irisId){
                 biometricPrompt.authenticate(promptInfo)
             }
+        }else{
+            println("shared cleared")
+            biometricPrompt.authenticate(promptInfo)
+            getSharedPreferences("user",Context.MODE_PRIVATE).edit().apply{
+                putBoolean("firstTimeLaunched",true)
+                apply()
+            }
+        }
+
 //        }
 
 

@@ -1,25 +1,14 @@
 package com.farasatnovruzov.recyclerlist.ui
 
-import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.fingerprint.FingerprintManager
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
-import com.farasatnovruzov.recyclerlist.ScreenshotUtil
-import com.farasatnovruzov.recyclerlist.ScreenshotUtil.screenshotIsAllowed
+import com.farasatnovruzov.recyclerlist.Utils
 import com.farasatnovruzov.recyclerlist.databinding.ActivitySecurityBinding
 
 class SecurityActivity : BaseActivity() {
@@ -54,13 +43,46 @@ class SecurityActivity : BaseActivity() {
 //            }
 //        }
 
+        binding.devicesTxt.text = Utils.deviceName()
 
-        binding.devicesTxt.text = deviceName()
+        if (getSharedPreferences("user", MODE_PRIVATE).getBoolean("firstTimeLaunched",false)){
+            println("firstTimeLaunched : ${getSharedPreferences("user", MODE_PRIVATE).getBoolean("firstTimeLaunched",false)}")
+
+            if (this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)){
+                binding.touchIdCard.visibility = View.VISIBLE
+                println("touchId")
+                    binding.touchIdTxt.text = getString(R.string.applied_profile)
+                    binding.touchIdSwitch.isChecked = true
+            }
+
+            if(this.packageManager.hasSystemFeature(PackageManager.FEATURE_FACE)){
+                println("face")
+                binding.faceIdCard.visibility = View.VISIBLE
+                    binding.faceIdTxt.text = getString(R.string.applied_profile)
+                    binding.faceIdSwitch.isChecked = true
+            }
+
+            if(this.packageManager.hasSystemFeature(PackageManager.FEATURE_IRIS)){
+                println("iris")
+                binding.irisIdCard.visibility = View.VISIBLE
+                    binding.irisIdTxt.text = getString(R.string.applied_profile)
+                    binding.faceIdSwitch.isChecked = true
+            }
+
+            getSharedPreferences("user",Context.MODE_PRIVATE).edit().apply{
+                putBoolean("firstTimeLaunched",false)
+                apply()
+            }
+
+            println("firstTimeLaunched : ${getSharedPreferences("user", MODE_PRIVATE).getBoolean("firstTimeLaunched",false)}")
+
+        }
+
 
         if (this.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)){
             binding.touchIdCard.visibility = View.VISIBLE
             val touchId = getSharedPreferences("user",Context.MODE_PRIVATE).getBoolean("touchId",false)
-            println("touchId : "+touchId)
+            println("touchId")
             if(touchId){
                 binding.touchIdTxt.text = getString(R.string.applied_profile)
                 binding.touchIdSwitch.isChecked = true
@@ -89,7 +111,7 @@ class SecurityActivity : BaseActivity() {
 
         val screenshotIsAllowed = getSharedPreferences("user",Context.MODE_PRIVATE).getBoolean("screenshotIsAllowed",false)
         println("screenshotIsAllowed : "+screenshotIsAllowed)
-        if(screenshotIsAllowed==true){
+        if(screenshotIsAllowed){
                 binding.screenshotTxt.text = getString(R.string.applied_profile)
                 binding.screenshotSwitch.isChecked = true
         }
@@ -235,13 +257,6 @@ class SecurityActivity : BaseActivity() {
 
     }
 
-    fun deviceName() : String {
-        if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase())) {
-            return Build.MODEL.capitalize()
-        } else {
-            return Build.MANUFACTURER.capitalize() + " " + Build.MODEL
-        }
-    }
 
 
 //    private val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
@@ -267,4 +282,5 @@ class SecurityActivity : BaseActivity() {
 //        isFingerprintEnabled = true
 //        // Reactivate the fingerprint functionality
 //    }
+
 }

@@ -189,6 +189,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
+                android:checked="false"
                 android:id="@+id/touchIdSwitch"
                 android:layout_width="0dp"
                 android:layout_height="18dp"
@@ -251,6 +252,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
+                android:checked="false"
                 android:id="@+id/faceIdSwitch"
                 android:layout_width="0dp"
                 android:layout_height="18dp"
@@ -313,6 +315,7 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.SwitchCompat
+                android:checked="false"
                 android:id="@+id/irisIdSwitch"
                 android:layout_width="0dp"
                 android:layout_height="18dp"
