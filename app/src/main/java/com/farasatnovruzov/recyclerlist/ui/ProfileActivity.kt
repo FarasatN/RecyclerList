@@ -1,17 +1,21 @@
 package com.farasatnovruzov.recyclerlist.ui
 
+import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
@@ -27,71 +31,10 @@ class ProfileActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        executor = ContextCompat.getMainExecutor(this@ProfileActivity)
-
-        biometricPrompt = BiometricPrompt(this@ProfileActivity,executor,
-            object : BiometricPrompt.AuthenticationCallback(){
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    Toast.makeText(this@ProfileActivity,"Authentication failed",Toast.LENGTH_LONG).show()
-
-                }
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    super.onAuthenticationSucceeded(result)
-                    Toast.makeText(this@ProfileActivity,"Authentication succeeded",Toast.LENGTH_LONG).show()
-                }
-                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                    super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(this@ProfileActivity,"Authentication error $errString",Toast.LENGTH_LONG).show()
-                }
-            })
+        checkDeviceHasBiometricWithPermission()
 
 
-        promptInfo = BiometricPrompt.PromptInfo.Builder()
-//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG)
-//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
-            .setTitle("Biometric Authentication")
-            .setSubtitle("Login using your biometric credential")
-            .setNegativeButtonText("Cancel")
-            .build()
-        val touchId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("touchId",false)
-        val faceId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("faceId",false)
-        val irisId = getSharedPreferences("user", MODE_PRIVATE).getBoolean("irisId",false)
-
-//        if(this.getSystemService(BiometricManager::class.java)?.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS){
-//        if(promptInfo.allowedAuthenticators==BiometricManager.Authenticators.BIOMETRIC_WEAK){
-
-        if (getSharedPreferences("user", MODE_PRIVATE).contains("faceId") ||
-            getSharedPreferences("user", MODE_PRIVATE).contains("touchId") ||
-            getSharedPreferences("user", MODE_PRIVATE).contains("irisId") ||
-            getSharedPreferences("user", MODE_PRIVATE).contains("screenshotIsAllowed")
-                ){
-            if (touchId){
-                biometricPrompt.authenticate(promptInfo)
-            }
-            if(faceId){
-                biometricPrompt.authenticate(promptInfo)
-            }
-            if(irisId){
-                biometricPrompt.authenticate(promptInfo)
-            }
-        }else{
-            println("shared cleared")
-            biometricPrompt.authenticate(promptInfo)
-            getSharedPreferences("user",Context.MODE_PRIVATE).edit().apply{
-                putBoolean("firstTimeLaunched",true)
-                apply()
-            }
-        }
-
-//        }
-
-
-
-
-
-
- //------------------------------------------------
+        //------------------------------------------------
 
         val customerInfoCard = findViewById<CardView>(R.id.customerInfoCard)
         val securityCard = findViewById<CardView>(R.id.securityCard)
@@ -111,10 +54,6 @@ class ProfileActivity : BaseActivity() {
         }
 
 
-
-
-
-//        checkDeviceHasBiometric()
 //        authenticateWithBiometric()
 
 //        val MANUFACTURER = Build.MANUFACTURER
@@ -143,24 +82,162 @@ class ProfileActivity : BaseActivity() {
         val userAgent = WebView(this).settings.userAgentString
         val deviceID = Settings.Secure.getString(this.contentResolver, Settings.Secure.ANDROID_ID)
 
-        println("userAgent: "+userAgent.toString())
-        println("deviceID: "+deviceID)
+        println("userAgent: " + userAgent.toString())
+        println("deviceID: " + deviceID)
 
     }
 
+    private fun checkDeviceHasBiometricWithPermission() {
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
+            val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            if (!keyguardManager.isDeviceSecure) {
+                println("Fingerprint authentication has not been enabled in settings")
+            }
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.USE_BIOMETRIC
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                println("Fingerprint Authentication Permission is not enabled")
+            }
+            if (packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)) {
+                println("Fingerprint Authentication Permission is enabled")
+            }
+        } else {
+            val biometricManager = BiometricManager.from(this)
+            when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> {
+                    Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
+                    executor = ContextCompat.getMainExecutor(this@ProfileActivity)
+                    biometricPrompt = BiometricPrompt(this@ProfileActivity, executor,
+                        object : BiometricPrompt.AuthenticationCallback() {
+                            override fun onAuthenticationFailed() {
+                                super.onAuthenticationFailed()
+                                Toast.makeText(
+                                    this@ProfileActivity,
+                                    "Authentication failed",
+                                    Toast.LENGTH_LONG
+                                ).show()
+
+                            }
+                            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                                super.onAuthenticationSucceeded(result)
+                                Toast.makeText(
+                                    this@ProfileActivity,
+                                    "Authentication succeeded",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            override fun onAuthenticationError(
+                                errorCode: Int,
+                                errString: CharSequence
+                            ) {
+                                super.onAuthenticationError(errorCode, errString)
+                                Toast.makeText(
+                                    this@ProfileActivity,
+                                    "Authentication error $errString",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
+                    promptInfo = BiometricPrompt.PromptInfo.Builder()
+//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.BIOMETRIC_STRONG)
+//            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
+                        .setTitle("Biometric Authentication")
+                        .setSubtitle("Login using your biometric credential")
+                        .setNegativeButtonText("Cancel")
+                        .build()
+                    val touchId =
+                        getSharedPreferences("user", MODE_PRIVATE).getBoolean("touchId", false)
+                    val faceId =
+                        getSharedPreferences("user", MODE_PRIVATE).getBoolean("faceId", false)
+                    val irisId =
+                        getSharedPreferences("user", MODE_PRIVATE).getBoolean("irisId", false)
+
+//        if(this.getSystemService(BiometricManager::class.java)?.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS){
+//        if(promptInfo.allowedAuthenticators==BiometricManager.Authenticators.BIOMETRIC_WEAK){
+                    if (getSharedPreferences("user", MODE_PRIVATE).contains("faceId") ||
+                        getSharedPreferences("user", MODE_PRIVATE).contains("touchId") ||
+                        getSharedPreferences("user", MODE_PRIVATE).contains("irisId") ||
+                        getSharedPreferences("user", MODE_PRIVATE).contains("screenshotIsAllowed")
+                    ) {
+                        if (touchId) {
+                            biometricPrompt.authenticate(promptInfo)
+                        }
+                        if (faceId) {
+                            biometricPrompt.authenticate(promptInfo)
+                        }
+                        if (irisId) {
+                            biometricPrompt.authenticate(promptInfo)
+                        }
+                    } else {
+                        println("shared cleared")
+                        biometricPrompt.authenticate(promptInfo)
+                        getSharedPreferences("user", Context.MODE_PRIVATE).edit().apply {
+                            putBoolean("firstTimeLaunched", true)
+                            apply()
+                        }
+                    }
+                }
+                BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                    Log.e("MY_APP_TAG", "No biometric features available on this device.")
+                }
+                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                    Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
+                }
+                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                    // Prompts the user to create credentials that your app accepts.
+                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                        putExtra(
+                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                            BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                        )
+                    }
+//                binding.button.isEnabled = false
+                    startActivityForResult(enrollIntent, 100)
+                }
+                BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
+                }
+                BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {
+                }
+                BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {
+                }
+            }
+        }
+    }
+}
 
 
-
-
-//    private fun checkDeviceHasBiometric(){
-//        val biometricManager = BiometricManager.from(this)
-//        when(biometricManager.canAuthenticate(BIOMETRIC_STRONG or BIOMETRIC_WEAK or DEVICE_CREDENTIAL)){
-//            BiometricManager.BIOMETRIC_SUCCESS -> Toast.makeText(this.applicationContext,"Device have biometric",Toast.LENGTH_SHORT).show()
-//            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> Toast.makeText(this.applicationContext,"Device doesn't have biometric",Toast.LENGTH_SHORT).show()
-//            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> Toast.makeText(this.applicationContext,"Not working",Toast.LENGTH_SHORT).show()
-//            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> Toast.makeText(this.applicationContext,"No biometric assigned",Toast.LENGTH_SHORT).show()
-//        }
+//private fun checkDeviceHasBiometric() {
+////        BIOMETRIC_ERROR_NONE_ENROLLED if the user does not have any enrolled
+////        BIOMETRIC_ERROR_HW_UNAVAILABLE if none are currently supported/enabled
+////        BIOMETRIC_SUCCESS if a biometric can currently be used (enrolled and available).
+//    val biometricManager = BiometricManager.from(this)
+//    when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or BIOMETRIC_WEAK or DEVICE_CREDENTIAL)) {
+//        BiometricManager.BIOMETRIC_SUCCESS -> Toast.makeText(
+//            this.applicationContext,
+//            "Device have biometric",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//        BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> Toast.makeText(
+//            this.applicationContext,
+//            "Device doesn't have biometric",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//        BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> Toast.makeText(
+//            this.applicationContext,
+//            "Not working",
+//            Toast.LENGTH_SHORT
+//        ).show()
+//        BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> Toast.makeText(
+//            this.applicationContext,
+//            "No biometric assigned",
+//            Toast.LENGTH_SHORT
+//        ).show()
 //    }
+//}
+
 //
 //    private fun authenticateWithBiometric() {
 //        val biometricPrompt:  BiometricPrompt
@@ -197,5 +274,3 @@ class ProfileActivity : BaseActivity() {
 //            .build()
 //        biometricPrompt.authenticate(promtInfo)
 //    }
-
-}
