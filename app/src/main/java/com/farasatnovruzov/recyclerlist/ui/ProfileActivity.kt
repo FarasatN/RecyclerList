@@ -9,12 +9,14 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.webkit.WebView
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -34,6 +36,12 @@ class ProfileActivity : BaseActivity() {
 //        supportFragmentManager.putFragment(outState,"test",TestFragment())
 //    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val activityView = findViewById<ConstraintLayout>(R.id.activityView)
+        activityView.visibility = View.VISIBLE
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -44,6 +52,8 @@ class ProfileActivity : BaseActivity() {
 //        }
 
         if (isFinishAffinityCalled==true){
+            val activityView = findViewById<ConstraintLayout>(R.id.activityView)
+            activityView.visibility = View.GONE
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             transaction.addToBackStack(null)
@@ -68,7 +78,8 @@ class ProfileActivity : BaseActivity() {
         securityCard.setOnClickListener {
 //            val intent = Intent(this, SecurityActivity::class.java)
 //            startActivity(intent)
-
+            val activityView = findViewById<ConstraintLayout>(R.id.activityView)
+            activityView.visibility = View.GONE
             val transaction = supportFragmentManager.beginTransaction()
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             transaction.addToBackStack(null)
