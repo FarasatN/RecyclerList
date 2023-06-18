@@ -4,19 +4,21 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.webkit.WebView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
 import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
 import java.util.concurrent.Executor
@@ -26,13 +28,32 @@ class ProfileActivity : BaseActivity() {
     lateinit var executor: Executor
     lateinit var biometricPrompt: BiometricPrompt
     lateinit var promptInfo: BiometricPrompt.PromptInfo
+//    lateinit var test:Fragment
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        supportFragmentManager.putFragment(outState,"test",TestFragment())
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+//        if (savedInstanceState != null) {
+//            test = supportFragmentManager.getFragment(savedInstanceState, "test")!!
+//        } else {
+//            test = TestFragment()
+//        }
+
+        if (isFinishAffinityCalled==true){
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            transaction.addToBackStack(null)
+            transaction.replace(R.id.mainContainer,TestFragment())
+                .addToBackStack(TestFragment::class.java.name)
+                .commit()
+        }
+
 
         checkDeviceHasBiometricWithPermission()
-
 
         //------------------------------------------------
 
@@ -45,8 +66,16 @@ class ProfileActivity : BaseActivity() {
             startActivity(intent)
         }
         securityCard.setOnClickListener {
-            val intent = Intent(this, SecurityActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, SecurityActivity::class.java)
+//            startActivity(intent)
+
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            transaction.addToBackStack(null)
+            transaction.replace(R.id.mainContainer,TestFragment())
+                .addToBackStack(TestFragment::class.java.name)
+                .commit()
+
         }
         aboutAppCard.setOnClickListener {
             val intent = Intent(this, AboutAppActivity::class.java)
@@ -146,7 +175,9 @@ class ProfileActivity : BaseActivity() {
 //            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_WEAK)
                         .setTitle("Biometric Authentication")
                         .setSubtitle("Login using your biometric credential")
-                        .setNegativeButtonText("Cancel")
+                        .setConfirmationRequired(true)
+                        .setDeviceCredentialAllowed(true)
+//                        .setNegativeButtonText("Cancel")
                         .build()
                     val touchId =
                         getSharedPreferences("user", MODE_PRIVATE).getBoolean("touchId", false)
@@ -171,6 +202,36 @@ class ProfileActivity : BaseActivity() {
                         if (irisId) {
                             biometricPrompt.authenticate(promptInfo)
                         }
+
+
+
+//                        val fingerprintManager = FingerprintManagerCompat.from(applicationContext)
+//                        if (fingerprintManager.isHardwareDetected && fingerprintManager.hasEnrolledFingerprints()) {
+//                            // Fingerprint authentication is available and fingerprints are enrolled
+//                            println("Fingerprint authentication")
+//                            getSharedPreferences("user", Context.MODE_PRIVATE).edit().apply {
+//                                putBoolean("isFinger", true)
+//                                apply()
+//                            }
+//                        }
+                        val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
+                            override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult?) {
+                                // Authentication succeeded
+                                println("Fingerprint authentication")
+
+                            }
+
+                            override fun onAuthenticationError(errorCode: Int, errString: CharSequence?) {
+                                // Authentication error
+                            }
+
+                            override fun onAuthenticationFailed() {
+                                // Authentication failed
+                            }
+                        }
+
+//                        val cryptoObject = FingerprintManager.CryptoObject(yourCipher)
+//                        fingerprintManager.authenticate(cryptoObject, cancellationSignal, 0, authenticationCallback, null)
                     } else {
                         println("shared cleared")
                         biometricPrompt.authenticate(promptInfo)
@@ -188,14 +249,7 @@ class ProfileActivity : BaseActivity() {
                 }
                 BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                     // Prompts the user to create credentials that your app accepts.
-                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                        putExtra(
-                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
-                            BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-                        )
-                    }
-//                binding.button.isEnabled = false
-                    startActivityForResult(enrollIntent, 100)
+
                 }
                 BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {
                 }
