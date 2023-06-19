@@ -2,8 +2,10 @@ package com.farasatnovruzov.recyclerlist.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -11,6 +13,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat.startActivity
 import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
 import com.farasatnovruzov.recyclerlist.databinding.ActivityCustomerInfoBinding
@@ -134,8 +137,33 @@ class CustomerInfoActivity : BaseActivity() {
     }
 
 
+//---------------------------------------------------------
 
 
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_IMAGE_PICK = 2
+
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_CAPTURE -> {
+                    val imageBitmap = data?.extras?.get("data") as Bitmap
+                    // Do something with the imageBitmap (e.g., display it in an ImageView)
+                    binding.customerInfoImg.setImageBitmap(imageBitmap)
+                }
+                REQUEST_IMAGE_PICK -> {
+                    val imageUri = data?.data
+                    // Do something with the imageUri (e.g., load it into an ImageView using a library like Glide or Picasso)
+
+
+                }
+            }
+        }
+    }
 
 
 
@@ -145,19 +173,36 @@ class CustomerInfoActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
-//        imgProfile.setDrawableImage(R.drawable.ic_person, true)
-
         binding.customerInfoImg.setOnClickListener {
 //            val intent = Intent(this, SuccessActivity::class.java)
 //            startActivity(intent)
 
 
-            pickProfileImage()
-            pickCameraImage()
+//            pickProfileImage()
+//            pickCameraImage()
+
+
+            val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Select Image")
+            builder.setItems(options) { dialog, item ->
+                when {
+                    options[item] == "Take Photo" -> {
+                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                    }
+                    options[item] == "Choose from Gallery" -> {
+                        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        startActivityForResult(intent, REQUEST_IMAGE_PICK)
+                    }
+                    options[item] == "Cancel" -> {
+                        dialog.dismiss()
+                    }
+                }
+            }
+            builder.show()
+
         }
-
-
-
 
 
 
