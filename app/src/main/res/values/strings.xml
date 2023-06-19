@@ -59,4 +59,12 @@
     <string name="iris_id_profile">Iris ID</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+<!--    <string name="app_name">Image Picker</string>-->
+    <string name="action_github">Github Repository</string>
+
+    <string name="action_camera_only">Camera Only</string>
+    <string name="action_gallery_only">Gallery Only</string>
+    <string name="action_all">All with new API</string>
 </resources>
