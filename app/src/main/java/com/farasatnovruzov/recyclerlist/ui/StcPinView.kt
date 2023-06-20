@@ -66,6 +66,8 @@ class StcPinView(
 
     private var mPinItemSpacing: Int
 
+    private var mPinItemSpacingColor: ColorStateList?
+
     private var mPinItemRadius: Float
 
     private var mLineWidth: Float
@@ -124,6 +126,7 @@ class StcPinView(
             res.getDimensionPixelSize(R.dimen.pv_pin_view_item_line_width).toFloat()
         )
         mLineColor = a.getColorStateList(R.styleable.StcPinView_lineColor)
+        mPinItemSpacingColor = a.getColorStateList(R.styleable.StcPinView_itemSpacingColor)
 
         mIsCursorVisible = a.getBoolean(R.styleable.StcPinView_android_cursorVisible, true)
 

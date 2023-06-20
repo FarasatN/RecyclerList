@@ -65,11 +65,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/auth_message" />
 
             <com.farasatnovruzov.recyclerlist.ui.StcPinView
+                android:background="@color/transparent"
                 android:focusable="true"
-                android:background="#F1F1F1"
-                android:elevation="4dp"
+                android:elevation="20dp"
                 android:id="@+id/pinCodeView"
-                style="@style/PinWidget.PinView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

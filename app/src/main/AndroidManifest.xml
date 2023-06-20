@@ -44,7 +44,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.EditKeywordActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:windowSoftInputMode="stateAlwaysVisible"
             android:name=".ui.OTPActivity"

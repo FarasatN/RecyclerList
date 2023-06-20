@@ -216,7 +216,7 @@ class CustomerInfoActivity : BaseActivity() {
 
 
         binding.clientTypeCard.setOnClickListener {
-            val intent = Intent(this, ErrorActivity::class.java)
+            val intent = Intent(this, EditKeywordActivity::class.java)
             startActivity(intent)
         }
         binding.phoneNumberCard.setOnClickListener {
