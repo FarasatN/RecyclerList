@@ -2,7 +2,8 @@
 <paths>
 <!--    <cache-path path="images/" name="shared_images" />-->
 
-    <files-path path="../images/.." name="shared_images" />
+<!--    <files-path path="../images/.." name="shared_images" />-->
+    <files-path path="../files/.." name="shared_files" />
 
 <!--    <external-path path="/" name="shared_images" />-->
 

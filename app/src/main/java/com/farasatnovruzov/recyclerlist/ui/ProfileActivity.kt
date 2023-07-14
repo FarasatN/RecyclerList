@@ -67,14 +67,14 @@ class ProfileActivity : BaseActivity() {
 //        supportFragmentManager.putFragment(outState,"test",TestFragment())
 //    }
 
-    private var imageUri: Uri? = null
 
+
+    private var imageUri: Uri? = null
     private fun pickImage(){
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
+        intent.type = "*/*"
         galleryActivityResultLauncher.launch(intent)
     }
-
     private var galleryActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         ActivityResultCallback<ActivityResult> {result->
@@ -85,20 +85,17 @@ class ProfileActivity : BaseActivity() {
             }else{
                 //cancelled
             }
-
         }
     )
-
     private fun shareImage(){
         val contentUri = getContentUri()
         val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "image/png"
+//        intent.type = "image/png"
+        intent.type = "*/*"
         intent.putExtra(Intent.EXTRA_STREAM,contentUri)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivity(Intent.createChooser(intent,"Share Via"))
-
     }
-
     private fun getContentUri():Uri?{
         val bitmap: Bitmap
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.P){
@@ -107,29 +104,21 @@ class ProfileActivity : BaseActivity() {
         }else{
             bitmap = MediaStore.Images.Media.getBitmap(contentResolver,imageUri)
         }
-
-//        val imagesFolder = File(cacheDir,"images")
-        val imagesFolder = File(cacheDir,"images")
+//        val filesFolder = File(cacheDir,"images")
+        val filesFolder = File(cacheDir,"files")
         var contentUri : Uri? = null
         try{
-            imagesFolder.mkdir()
-            val file = File(imagesFolder, "shared_image.png")
+            filesFolder.mkdir()
+            val file = File(filesFolder, "shared_file.jpeg")
             val stream = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 1/999999999999999999, stream)
             stream.flush()
             stream.close()
             contentUri = FileProvider.getUriForFile(this, "com.farasatnovruzov.recyclerlist.fileprovider", file)
         }catch(e: Exception){
             e.printStackTrace()
         }
-
         return contentUri
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val activityView = findViewById<ConstraintLayout>(R.id.activityView)
-        activityView.visibility = View.VISIBLE
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
@@ -137,15 +126,11 @@ class ProfileActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         val aboutAppCard = findViewById<CardView>(R.id.aboutAppCard)
-
-
         aboutAppCard.setOnClickListener {
             pickImage()
         }
-
         aboutAppCard.setOnLongClickListener {
             shareImage()
-
             true
         }
 
@@ -428,6 +413,12 @@ class ProfileActivity : BaseActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val activityView = findViewById<ConstraintLayout>(R.id.activityView)
+        activityView.visibility = View.VISIBLE
     }
 }
 
