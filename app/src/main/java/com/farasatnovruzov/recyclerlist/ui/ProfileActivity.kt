@@ -1,17 +1,27 @@
 package com.farasatnovruzov.recyclerlist.ui
 
+import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.hardware.fingerprint.FingerprintManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
@@ -19,13 +29,34 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentTransaction
 import com.farasatnovruzov.recyclerlist.BaseActivity
 import com.farasatnovruzov.recyclerlist.R
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.identifier.AdvertisingIdClient
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
+import com.google.android.gms.common.GooglePlayServicesRepairableException
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.lang.Exception
 import java.util.concurrent.Executor
 
+
 class ProfileActivity : BaseActivity() {
+//    // The path to the root of this app's internal storage
+//    private lateinit var privateRootDir: File
+//    // The path to the "images" subdirectory
+//    private lateinit var imagesDir: File
+//    // Array of files in the images subdirectory
+//    private lateinit var imageFiles: Array<File>
+//    // Array of filenames corresponding to imageFiles
+//    private lateinit var imageFilenames: Array<String>
+
+
 
     lateinit var executor: Executor
     lateinit var biometricPrompt: BiometricPrompt
@@ -36,15 +67,143 @@ class ProfileActivity : BaseActivity() {
 //        supportFragmentManager.putFragment(outState,"test",TestFragment())
 //    }
 
+    private var imageUri: Uri? = null
+
+    private fun pickImage(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        galleryActivityResultLauncher.launch(intent)
+    }
+
+    private var galleryActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback<ActivityResult> {result->
+            if (result.resultCode==Activity.RESULT_OK){
+               //image picked
+                val intent = result.data
+                imageUri = intent!!.data
+            }else{
+                //cancelled
+            }
+
+        }
+    )
+
+    private fun shareImage(){
+        val contentUri = getContentUri()
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "image/png"
+        intent.putExtra(Intent.EXTRA_STREAM,contentUri)
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivity(Intent.createChooser(intent,"Share Via"))
+
+    }
+
+    private fun getContentUri():Uri?{
+        val bitmap: Bitmap
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.P){
+            val source = ImageDecoder.createSource(contentResolver,imageUri!!)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        }else{
+            bitmap = MediaStore.Images.Media.getBitmap(contentResolver,imageUri)
+        }
+
+//        val imagesFolder = File(cacheDir,"images")
+        val imagesFolder = File(cacheDir,"images")
+        var contentUri : Uri? = null
+        try{
+            imagesFolder.mkdir()
+            val file = File(imagesFolder, "shared_image.png")
+            val stream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 50, stream)
+            stream.flush()
+            stream.close()
+            contentUri = FileProvider.getUriForFile(this, "com.farasatnovruzov.recyclerlist.fileprovider", file)
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
+
+        return contentUri
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         val activityView = findViewById<ConstraintLayout>(R.id.activityView)
         activityView.visibility = View.VISIBLE
     }
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        val aboutAppCard = findViewById<CardView>(R.id.aboutAppCard)
+
+
+        aboutAppCard.setOnClickListener {
+            pickImage()
+        }
+
+        aboutAppCard.setOnLongClickListener {
+            shareImage()
+
+            true
+        }
+
+
+
+
+
+
+
+
+//        // Set up an Intent to send back to apps that request a file
+//        val resultIntent = Intent("com.example.myapp.ACTION_RETURN_FILE")
+//        // Get the files/ subdirectory of internal storage
+//        privateRootDir = filesDir
+//        // Get the files/images subdirectory;
+//        imagesDir = File(privateRootDir, "images")
+//        // Get the files in the images subdirectory
+//        imageFiles = imagesDir.listFiles()
+//        // Set the Activity's result to null to begin with
+//        setResult(Activity.RESULT_CANCELED, null)
+//
+//        val requestFile = File(imageFilenames[0])
+//        /*
+//         * Most file-related method calls need to be in
+//         * try-catch blocks.
+//         */
+//        // Use the FileProvider to get a content URI
+//        val fileUri: Uri? = try {
+//            FileProvider.getUriForFile(
+//                this,
+//                "com.example.myapp.fileprovider",
+//                requestFile)
+//        } catch (e: IllegalArgumentException) {
+//            Log.e("File Selector",
+//                "The selected file can't be shared: $requestFile")
+//            null
+//        }
+
+
+
+
+
+//        MobileAds.initialize(this) {}
+//        val adView = findViewById<AdView>(R.id.adView)
+//
+//
+//        AdView(this).also {
+//            adView.addView(it)
+//            val adRequest = AdRequest.Builder().build()
+////            it.adSize = adSize
+//            it.adUnitId = "ca-app-pub-9767202211621680/9546532272"
+//            it.loadAd(adRequest)
+//        }
+
+
+
+
+
 //        if (savedInstanceState != null) {
 //            test = supportFragmentManager.getFragment(savedInstanceState, "test")!!
 //        } else {
@@ -69,7 +228,6 @@ class ProfileActivity : BaseActivity() {
 
         val customerInfoCard = findViewById<CardView>(R.id.customerInfoCard)
         val securityCard = findViewById<CardView>(R.id.securityCard)
-        val aboutAppCard = findViewById<CardView>(R.id.aboutAppCard)
 
         customerInfoCard.setOnClickListener {
             val intent = Intent(this, CustomerInfoActivity::class.java)
@@ -88,10 +246,10 @@ class ProfileActivity : BaseActivity() {
                 .commit()
 
         }
-        aboutAppCard.setOnClickListener {
-            val intent = Intent(this, AboutAppActivity::class.java)
-            startActivity(intent)
-        }
+//        aboutAppCard.setOnClickListener {
+//            val intent = Intent(this, AboutAppActivity::class.java)
+//            startActivity(intent)
+//        }
 
 
 //        authenticateWithBiometric()
